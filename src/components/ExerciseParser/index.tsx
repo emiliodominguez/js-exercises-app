@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { ChangeEvent, useRef } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { icons } from "../../shared/icons";
 import useEventListener from "../../hooks/useEventListener";
 import styles from "./ExerciseParser.module.scss";
@@ -19,20 +18,36 @@ export default function ExerciseParser(): JSX.Element {
 
     /**
      * Handles the key down event
+     * @param e The event
      */
     function handleKeyDown(e: KeyboardEvent): void {
         if (e.ctrlKey && e.key === "a") {
             e.preventDefault();
-            setVisibility(visible ? false : true);
+
+            if (!visible) setVisibility(true);
+            else close();
         }
     }
 
+    /**
+     * Handles the copy button action
+     */
     function handleCopyButtonClick(): void {
         if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
             const code = JSON.stringify(snippet, null, 4);
             const minifiedSnippet = code.replace(/\n/g, "\n");
             navigator.clipboard.writeText(minifiedSnippet);
         }
+    }
+
+    /**
+     * Closes the modal
+     */
+    function close(): void {
+        setVisibility(false);
+        setSnippet("");
+
+        if (textAreaRef.current) textAreaRef.current.value = "";
     }
 
     useEventListener("keydown", handleKeyDown);
@@ -44,7 +59,7 @@ export default function ExerciseParser(): JSX.Element {
             <button
                 title="Close modal"
                 className={styles.close}
-                onClick={() => setVisibility(false)}
+                onClick={close}
             >
                 {icons.close}
             </button>
@@ -60,7 +75,10 @@ export default function ExerciseParser(): JSX.Element {
                 />
 
                 {snippet && (
-                    <button onClick={handleCopyButtonClick}>
+                    <button
+                        title="Copy formatted snippet"
+                        onClick={handleCopyButtonClick}
+                    >
                         {icons.rocket}
                     </button>
                 )}

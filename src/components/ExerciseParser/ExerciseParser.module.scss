@@ -69,7 +69,7 @@ $horizontal-padding: 25px;
 
     &:hover {
         svg path {
-            fill: $dark-gray;
+            fill: $danger-red;
         }
     }
 
@@ -78,7 +78,7 @@ $horizontal-padding: 25px;
         height: 12px;
 
         path {
-            fill: $danger-red;
+            fill: $dark-gray;
         }
     }
 }

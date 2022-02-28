@@ -8,14 +8,16 @@
 
 .editorContainer {
     position: relative;
-    max-width: 65vw;
+    max-width: 70vw;
     min-height: 350px;
     margin: 0 auto;
 
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
 
     > div {
+        flex: 1;
+        max-width: 35vw;
+
         &.results {
             width: 100%;
             height: auto;

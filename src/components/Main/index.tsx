@@ -28,12 +28,17 @@ export default function Main() {
         setCurrentIndex((prev) => (prev + 1) % count);
     }
 
+    /**
+     * Handles the show resultant code action
+     */
     function showResultantCode(): void {
         try {
-            // eslint-disable-next-line no-eval
-            if (currentExercise) eval(currentExercise);
+            if (currentExercise) {
+                // eslint-disable-next-line no-eval
+                (undefined, eval)(currentExercise)();
+            }
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 
@@ -52,8 +57,8 @@ export default function Main() {
 
             <section className={styles.editorContainer}>
                 <CodeEditor
+                    key={`exercise_${currentIndex}`}
                     value={currentExercise}
-                    setValue={setCurrentExercise}
                 />
 
                 <button
