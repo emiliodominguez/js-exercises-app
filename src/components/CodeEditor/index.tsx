@@ -21,6 +21,7 @@ export default function CodeEditor(props: CodeEditorProps): JSX.Element {
         <CodeMirror
             value={props.value}
             editorDidMount={format}
+            onChange={format}
             className={styles.editor}
             options={{
                 mode: "javascript",
