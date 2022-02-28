@@ -1,26 +1,43 @@
 @import "../../styles/placeholders";
+@import "../../styles/media-queries";
 @import "../../styles/colors";
 
 .main {
     min-height: 100vh;
     padding: 50px;
+
+    @media #{$max-width-md} {
+        padding: 25px;
+    }
 }
 
 .editorContainer {
+    $container-min-height: 350px;
+
     position: relative;
+    width: 100%;
     max-width: 70vw;
-    min-height: 350px;
+    min-height: $container-min-height;
     margin: 0 auto;
 
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    @media #{$max-width-xl} {
+        max-width: 100%;
+        min-height: unset;
+    }
+
+    @media #{$max-width-md} {
+        grid-template-columns: 1fr;
+    }
 
     > div {
-        flex: 1;
-        max-width: 35vw;
+        width: 100%;
 
         &.results {
-            width: 100%;
             height: auto;
+            min-height: $container-min-height;
             padding: 25px;
             background-color: #fff;
         }
@@ -39,14 +56,30 @@
         transition: transform ease 250ms;
         @extend %btn-reset;
 
+        @media #{$max-width-md} {
+            top: 15px;
+            right: 15px;
+            left: auto;
+            padding: 10px;
+            transform: unset;
+        }
+
         &:hover {
             transform: translate(-50%, -50%) scale(1.2);
+
+            @media #{$max-width-md} {
+                transform: scale(1.2);
+            }
         }
 
         svg {
             display: block;
             height: 25px;
             margin-left: 3px;
+
+            @media #{$max-width-md} {
+                height: 18px;
+            }
         }
     }
 }
