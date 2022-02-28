@@ -69,7 +69,7 @@ export default function Main() {
                 </button>
 
                 <div className={styles.results}>
-                    Results will be displayed here
+                    Check the console for now... 😛
                 </div>
             </section>
 
