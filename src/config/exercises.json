@@ -1,0 +1,11 @@
+[
+    {
+        "code": "sayHi();\n\nfunction sayHi() {\nconsole.log('hi');\n}\n\nsayBye();\n\nconst sayBye = () => {\nconsole.log('bye');\n};\n"
+    },
+    {
+        "code": "function classroom(teacher) {\n\treturn function() {\n\t\tconsole.log(`${teacher} says to study ${this.topic}`);\n\t};\n}\n\nconst assignment = classroom('Kyle');\nconst homework = { topic: 'Math' };\nconst topic = 'JS';\n\nassignment.call(homework);"
+    },
+    {
+        "code": "function classroom(teacher) {\n\treturn () => {\n\t\tconsole.log(`${teacher} says to study ${this.topic}`);\n\t};\n}\n\nconst assignment = classroom('Kyle');\nconst homework = {\n\ttopic: 'Math',\n\tassignment: assignment,\n};\n\nhomework.assignment();"
+    }
+]

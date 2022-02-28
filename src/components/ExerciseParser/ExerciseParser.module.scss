@@ -1,0 +1,84 @@
+@import "../../styles/placeholders";
+@import "../../styles/colors";
+
+$horizontal-padding: 25px;
+
+.container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    padding: 50px $horizontal-padding 25px;
+    background-color: rgba(#fff, 0.25);
+    backdrop-filter: blur(15px);
+    transform: translate(-50%, -50%);
+    box-shadow: 0 6px 8px rgba(#000, 0.5), 0 6px 8px rgba(#000, 0.55);
+    z-index: 100;
+
+    &,
+    textarea {
+        border-radius: 5px;
+    }
+
+    h2 {
+        color: #fff;
+        font-weight: 200;
+        margin-bottom: 25px;
+    }
+}
+
+.textareaContainer {
+    position: relative;
+
+    textarea {
+        width: 500px;
+        min-height: 500px;
+        padding: 15px;
+        font-size: 16px;
+        resize: none;
+        outline: none;
+    }
+
+    button {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        z-index: 1;
+        @extend %btn-reset;
+
+        &:hover {
+            svg path {
+                fill: $success-green;
+            }
+        }
+
+        svg {
+            height: 20px;
+            transition: fill ease 250ms;
+        }
+    }
+}
+
+.close {
+    $btn-padding: 5px;
+
+    position: absolute;
+    top: 15px;
+    right: $horizontal-padding - $btn-padding;
+    padding: $btn-padding;
+    @extend %btn-reset;
+
+    &:hover {
+        svg path {
+            fill: $dark-gray;
+        }
+    }
+
+    svg {
+        display: block;
+        height: 12px;
+
+        path {
+            fill: $danger-red;
+        }
+    }
+}

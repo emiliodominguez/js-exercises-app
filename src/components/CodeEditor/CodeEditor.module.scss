@@ -1,0 +1,6 @@
+.editor {
+    > :global(.CodeMirror) {
+        height: 100%;
+        font-size: 16px;
+    }
+}
