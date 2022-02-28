@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import exercises from "../../config/exercises.json";
 import { icons } from "../../shared/icons";
 import CodeEditor from "../CodeEditor";
@@ -38,7 +37,8 @@ export default function Main() {
                 (undefined, eval)(currentExercise)();
             }
         } catch (error) {
-            console.error(error);
+            if (!(error as EvalError).message.includes("eval"))
+                console.error(error);
         }
     }
 
