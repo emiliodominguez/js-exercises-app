@@ -62,6 +62,8 @@ export default function Main(): JSX.Element {
 
     /**
      * Handles the show resultant code action
+     * * Saves a copy of the original window object and restores it after eval's execution
+     * * Saves the exercise on local storage
      */
     function showResultantCode(): void {
         clearLogMessages();
@@ -69,11 +71,15 @@ export default function Main(): JSX.Element {
         try {
             if (currentExercise) {
                 const originalWindow = Object.keys(window);
+
                 // eslint-disable-next-line no-eval
                 eval.call(window, currentExercise);
+
                 const modifiedWindow = Object.keys(window);
                 const diff = modifiedWindow.filter(key => !originalWindow.includes(key));
+
                 diff.forEach(key => delete (window as { [key: string]: any })[key]);
+                localStorageService.set(getKey(currentIndex), currentExercise);
             }
         } catch (error) {
             const { name, message } = error as EvalError;
