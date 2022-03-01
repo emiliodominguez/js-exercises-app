@@ -1,4 +1,5 @@
 @import "./colors";
+@import "./mixins";
 
 *,
 *::before,
@@ -15,4 +16,5 @@ body {
         $secondary-color,
         darken($secondary-color, 100%)
     );
+    @include custom-scrollbar(7px, $secondary-color, $primary-color);
 }

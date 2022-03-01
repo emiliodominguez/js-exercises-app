@@ -56,29 +56,17 @@ export default function ExerciseParser(): JSX.Element {
 
     return (
         <div className={styles.container}>
-            <button
-                title="Close modal"
-                className={styles.close}
-                onClick={close}
-            >
+            <button title="Close modal" className={styles.close} onClick={close}>
                 {icons.close}
             </button>
 
             <h2>Paste a snippet</h2>
 
             <div className={styles.textareaContainer}>
-                <textarea
-                    ref={textAreaRef}
-                    value={snippet}
-                    placeholder="Paste your snippet here"
-                    onChange={handleChange}
-                />
+                <textarea ref={textAreaRef} value={snippet} placeholder="Paste your snippet here" onChange={handleChange} />
 
                 {snippet && (
-                    <button
-                        title="Copy formatted snippet"
-                        onClick={handleCopyButtonClick}
-                    >
+                    <button title="Copy formatted snippet" onClick={handleCopyButtonClick}>
                         {icons.rocket}
                     </button>
                 )}

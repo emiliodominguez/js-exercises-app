@@ -1,0 +1,23 @@
+@import "../../styles/placeholders";
+
+.navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+
+    button {
+        min-width: 125px;
+        padding: 10px 15px;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1;
+        text-transform: uppercase;
+        border-radius: 5px;
+        @extend %btn-reset-themed;
+
+        + button {
+            margin-left: 15px;
+        }
+    }
+}

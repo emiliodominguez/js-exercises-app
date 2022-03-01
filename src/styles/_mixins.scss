@@ -1,0 +1,18 @@
+@import "./media-queries";
+
+@mixin custom-scrollbar($size: 8px, $bg-color: #eee, $thumb-color: #999) {
+    @media #{$min-width-md} {
+        &::-webkit-scrollbar {
+            width: $size;
+            height: $size;
+
+            &-track {
+                background-color: $bg-color;
+            }
+
+            &-thumb {
+                background-color: $thumb-color;
+            }
+        }
+    }
+}

@@ -19,8 +19,7 @@ export default function useEventListener(
 
     useEffect(() => {
         const eventTarget = targetRef.current;
-        const supportsEventListener =
-            eventTarget && eventTarget.addEventListener;
+        const supportsEventListener = eventTarget && eventTarget.addEventListener;
 
         if (!supportsEventListener && !callbackMemo) return;
 

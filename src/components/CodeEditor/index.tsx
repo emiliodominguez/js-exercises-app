@@ -9,13 +9,12 @@ interface CodeEditorProps {
 
 export default function CodeEditor(props: CodeEditorProps): JSX.Element {
     /**
-     * Formats the editor content
+     * Handles the editor mount event
      * @param editor The editor
      */
-    function format(editor: Editor): void {
-        editor.eachLine((line) =>
-            editor.indentLine(editor.getLineNumber(line)!, "smart")
-        );
+    function handleMount(editor: Editor): void {
+        editor.setValue(props.code);
+        editor.eachLine(line => editor.indentLine(editor.getLineNumber(line)!, "smart"));
     }
 
     /**
@@ -24,19 +23,13 @@ export default function CodeEditor(props: CodeEditorProps): JSX.Element {
      * @param data The change descriptor
      * @param value The updated value
      */
-    function handleChange(
-        editor: Editor,
-        _data: EditorChange,
-        value: string
-    ): void {
-        format(editor);
+    function handleChange(_editor: Editor, _data: EditorChange, value: string): void {
         props.setCode(value);
     }
 
     return (
         <CodeMirror
-            value={props.code}
-            editorDidMount={format}
+            editorDidMount={handleMount}
             onChange={handleChange}
             className={styles.editor}
             options={{
@@ -45,7 +38,7 @@ export default function CodeEditor(props: CodeEditorProps): JSX.Element {
                 lineNumbers: true,
                 electricChars: true,
                 indentWithTabs: true,
-                indentUnit: 4,
+                indentUnit: 4
             }}
         />
     );

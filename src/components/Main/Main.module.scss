@@ -1,3 +1,4 @@
+@import "../../styles/mixins";
 @import "../../styles/placeholders";
 @import "../../styles/media-queries";
 @import "../../styles/colors";
@@ -17,16 +18,17 @@
     }
 }
 
-.editorContainer {
-    --min-height: 350px;
+.controlGroup {
     --max-width: 70vw;
+    --min-height: 350px;
 
     position: relative;
     width: 100%;
     max-width: var(--max-width);
-    min-height: var(--min-height);
+    height: var(--min-height);
     border-radius: 10px;
     overflow: hidden;
+    box-shadow: 0 4px 6px rgba(#000, 0.1), 0 4px 6px rgba(#000, 0.15);
     margin: 0 auto;
 
     display: grid;
@@ -34,32 +36,45 @@
 
     @media #{$max-width-xl} {
         --max-width: 85vw;
-
-        min-height: unset;
     }
 
     @media #{$max-width-md} {
         --min-height: 275px;
 
+        height: auto;
         grid-template-columns: 1fr;
     }
 
     > div {
         width: 100%;
-
-        @media #{$max-width-xl} {
-            max-width: calc(var(--max-width) * 0.5);
-        }
+        max-width: calc(var(--max-width) * 0.5);
 
         @media #{$max-width-md} {
             max-width: var(--max-width);
         }
 
         &.results {
-            height: auto;
-            min-height: var(--min-height);
-            padding: 25px;
-            background-color: #fff;
+            padding: 15px 25px;
+            background-color: $secondary-color;
+            color: #fff;
+            white-space: pre-line;
+            overflow-y: auto;
+            @include custom-scrollbar(7px, $secondary-color, $primary-color);
+
+            @media #{$max-width-md} {
+                max-width: var(--max-width);
+                height: var(--min-height);
+            }
+
+            span {
+                display: block;
+                padding: 5px 0;
+                line-height: 1.5;
+
+                &.error {
+                    color: $error-red;
+                }
+            }
         }
     }
 
@@ -72,7 +87,7 @@
         border-radius: 50%;
         z-index: 1;
         transition: transform ease 250ms;
-        @extend %btn-reset;
+        @extend %btn-reset-themed;
 
         @media #{$max-width-md} {
             top: 15px;
@@ -98,28 +113,6 @@
             @media #{$max-width-md} {
                 height: 18px;
             }
-        }
-    }
-}
-
-.navigation {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 50px;
-
-    button {
-        min-width: 125px;
-        padding: 10px 15px;
-        font-size: 14px;
-        font-weight: 600;
-        line-height: 1;
-        text-transform: uppercase;
-        border-radius: 5px;
-        @extend %btn-reset;
-
-        + button {
-            margin-left: 15px;
         }
     }
 }

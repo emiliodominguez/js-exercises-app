@@ -3,80 +3,101 @@ import exercises from "../../config/exercises.json";
 import { icons } from "../../shared/icons";
 import CodeEditor from "../CodeEditor";
 import ExerciseParser from "../ExerciseParser";
+import Navigation from "../Navigation";
 import styles from "./Main.module.scss";
 
-const count = exercises.length;
+interface LogMessages {
+    logs: string[];
+    error: string;
+}
 
-export default function Main() {
+const count: number = exercises.length;
+const consoleLogRestore = console.log;
+
+export default function Main(): JSX.Element {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
-    const [currentExercise, setCurrentExercise] = useState<string>(
-        () => exercises[currentIndex].code
-    );
+    const [logMessages, setLogMessages] = useState<LogMessages>({ logs: [], error: "" });
+    const [currentExercise, setCurrentExercise] = useState<string>(() => exercises[currentIndex].code);
 
     /**
      * Goes to the previous exercise
      */
     function goToPreviousExercise(): void {
-        setCurrentIndex((prev) => (prev === 0 ? count - 1 : prev - 1));
+        setCurrentIndex(prev => {
+            const index = prev === 0 ? count - 1 : prev - 1;
+            setCurrentExercise(exercises[index].code);
+            return index;
+        });
     }
 
     /**
      * Goes to the next exercise
      */
     function goToNextExercise(): void {
-        setCurrentIndex((prev) => (prev + 1) % count);
+        setCurrentIndex(prev => {
+            const index = (prev + 1) % count;
+            setCurrentExercise(exercises[index].code);
+            return index;
+        });
     }
 
     /**
      * Handles the show resultant code action
      */
     function showResultantCode(): void {
+        clearLogMessages();
+
         try {
             if (currentExercise) {
                 // eslint-disable-next-line no-eval
                 (undefined, eval)(currentExercise)();
             }
         } catch (error) {
-            if (!(error as EvalError).message.includes("eval"))
-                console.error(error);
+            const { name, message } = error as EvalError;
+
+            if (!message.includes("eval")) setLogMessages(prev => ({ ...prev, error: `${name}: ${message}` }));
         }
     }
 
+    /**
+     * Clears all log messages
+     */
+    function clearLogMessages(): void {
+        setLogMessages({ logs: [], error: "" });
+    }
+
     useEffect(() => {
-        setCurrentExercise((prevExercise) => {
-            const newExercise = exercises[currentIndex].code;
-            return prevExercise === newExercise ? prevExercise : newExercise;
-        });
-    }, [currentIndex]);
+        console.log = message => setLogMessages(prev => ({ logs: [...prev.logs, message], error: "" }));
+
+        return () => {
+            // Restores console.log mock
+            console.log = consoleLogRestore;
+        };
+    }, []);
+
+    useEffect(clearLogMessages, [currentIndex]);
 
     return (
         <main className={styles.main}>
             <ExerciseParser />
 
-            <section className={styles.editorContainer}>
-                <CodeEditor
-                    key={`exercise_${currentIndex}`}
-                    code={currentExercise}
-                    setCode={setCurrentExercise}
-                />
+            <section className={styles.controlGroup}>
+                <CodeEditor key={`exercise_${currentIndex}`} code={currentExercise} setCode={setCurrentExercise} />
 
-                <button
-                    className={styles.showResultsBtn}
-                    onClick={showResultantCode}
-                >
+                <button className={styles.showResultsBtn} onClick={showResultantCode}>
                     {icons.chevronFill}
                 </button>
 
                 <div className={styles.results}>
-                    Check the console for now... 😛
+                    {logMessages.logs.map((message, i) => (
+                        <span key={`log_${i}`}>{message}</span>
+                    ))}
+
+                    {logMessages.error && <span className={styles.error}>{logMessages.error}</span>}
                 </div>
             </section>
 
-            {/* DEBUG ONLY */}
-            <div className={styles.navigation}>
-                <button onClick={goToPreviousExercise}>Previous</button>
-                <button onClick={goToNextExercise}>Next</button>
-            </div>
+            <Navigation previous={goToPreviousExercise} next={goToNextExercise} />
         </main>
     );
 }

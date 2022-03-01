@@ -43,7 +43,7 @@ $horizontal-padding: 25px;
         bottom: 15px;
         right: 15px;
         z-index: 1;
-        @extend %btn-reset;
+        @extend %btn-reset-themed;
 
         &:hover {
             svg path {
@@ -75,10 +75,10 @@ $horizontal-padding: 25px;
 
     svg {
         display: block;
-        height: 12px;
+        height: 15px;
 
         path {
-            fill: $secondary-color;
+            fill: #fff;
         }
     }
 }
