@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import exercises from "../../config/exercises.json";
+import useEventListener from "../../hooks/useEventListener";
 import { icons } from "../../shared/icons";
 import CodeEditor from "../CodeEditor";
 import ExerciseParser from "../ExerciseParser";
@@ -71,13 +72,23 @@ export default function Main(): JSX.Element {
         setLogMessages({ logs: [], error: "" });
     }
 
+    /**
+     * Shows the results on keydown
+     * @param e The event
+     */
+    function showResultsOnKeyDown(e: KeyboardEvent): void {
+        if (e.ctrlKey && e.key === "Enter") showResultantCode();
+    }
+
     useEffect(() => {
         clearLogMessages();
         // Mocks console log
-        console.log = message => setLogMessages(prev => ({ logs: [...prev.logs, message], error: "" }));
+        console.log = message => setLogMessages(prev => ({ logs: [...prev.logs, JSON.stringify(message, null, 4)], error: "" }));
     }, []);
 
     useEffect(clearLogMessages, [currentIndex]);
+
+    useEventListener("keydown", showResultsOnKeyDown);
 
     return (
         <main className={styles.main}>

@@ -60,7 +60,7 @@
             padding: 15px 25px;
             background-color: $secondary-color;
             color: $contrast-color;
-            white-space: pre-line;
+            white-space: pre;
             @include custom-scrollbar(7px, $secondary-color, $primary-color);
 
             @media #{$max-width-md} {
