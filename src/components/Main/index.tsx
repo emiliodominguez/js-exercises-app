@@ -49,8 +49,12 @@ export default function Main(): JSX.Element {
 
         try {
             if (currentExercise) {
+                const originalWindow = Object.keys(window);
                 // eslint-disable-next-line no-eval
-                (undefined, eval)(currentExercise)();
+                eval.call(window, currentExercise);
+                const modifiedWindow = Object.keys(window);
+                const diff = modifiedWindow.filter(key => !originalWindow.includes(key));
+                diff.forEach(key => delete (window as { [key: string]: any })[key]);
             }
         } catch (error) {
             const { name, message } = error as EvalError;
@@ -69,6 +73,7 @@ export default function Main(): JSX.Element {
     useEffect(() => {
         // Mocks console log
         console.log = message => setLogMessages(prev => ({ logs: [...prev.logs, message], error: "" }));
+        clearLogMessages();
     }, []);
 
     useEffect(clearLogMessages, [currentIndex]);
