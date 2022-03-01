@@ -166,7 +166,7 @@ export default function Main(): JSX.Element {
                 )}
             </section>
 
-            <Navigation previous={goToPreviousExercise} next={goToNextExercise} />
+            <Navigation current={currentIndex} previous={goToPreviousExercise} next={goToNextExercise} />
         </main>
     );
 }
