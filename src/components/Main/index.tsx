@@ -145,7 +145,7 @@ export default function Main(): JSX.Element {
                 </div>
 
                 {/* Show results button */}
-                <button className={styles.showResultsBtn} onClick={showResultantCode}>
+                <button className={styles.showResultsBtn} title="Show results" onClick={showResultantCode}>
                     {icons.chevronFill}
                 </button>
 
