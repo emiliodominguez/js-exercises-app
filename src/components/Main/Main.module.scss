@@ -33,7 +33,7 @@
 
     h1 {
         line-height: 1;
-        font-size: 50px;
+        font-size: clamp(32px, 5vw, 50px);
         font-weight: 200;
         margin-left: 25px;
 
@@ -102,42 +102,42 @@
             }
         }
     }
+}
 
-    .showResultsBtn {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 15px;
-        border-radius: 50%;
-        transition: transform ease 250ms;
-        z-index: z-index(moderate);
-        @extend %btn-reset-themed;
+.showResultsBtn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px;
+    border-radius: 50%;
+    transition: transform ease 250ms;
+    z-index: z-index(moderate);
+    @extend %btn-reset-themed;
+
+    @media #{$max-width-md} {
+        top: 15px;
+        right: 15px;
+        left: auto;
+        padding: 10px;
+        transform: unset;
+    }
+
+    &:hover {
+        transform: translate(-50%, -50%) scale(1.1);
 
         @media #{$max-width-md} {
-            top: 15px;
-            right: 15px;
-            left: auto;
-            padding: 10px;
-            transform: unset;
+            transform: scale(1.1);
         }
+    }
 
-        &:hover {
-            transform: translate(-50%, -50%) scale(1.1);
+    svg {
+        display: block;
+        height: 25px;
+        margin-left: 3px;
 
-            @media #{$max-width-md} {
-                transform: scale(1.1);
-            }
-        }
-
-        svg {
-            display: block;
-            height: 25px;
-            margin-left: 3px;
-
-            @media #{$max-width-md} {
-                height: 18px;
-            }
+        @media #{$max-width-md} {
+            height: 18px;
         }
     }
 }
