@@ -6,6 +6,11 @@
             width: $size;
             height: $size;
 
+            &-track,
+            &-thumb {
+                border-radius: 10px;
+            }
+
             &-track {
                 background-color: $bg-color;
             }

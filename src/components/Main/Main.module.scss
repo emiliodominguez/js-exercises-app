@@ -18,6 +18,30 @@
     }
 }
 
+.header {
+    margin-bottom: 75px;
+    color: $contrast-color;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    img {
+        max-height: 50px;
+    }
+
+    h1 {
+        line-height: 1;
+        font-size: 50px;
+        font-weight: 200;
+        margin-left: 25px;
+
+        @media #{$max-width-md} {
+            margin-top: 50px;
+        }
+    }
+}
+
 .controlGroup {
     --max-width: 70vw;
     --min-height: 350px;
@@ -48,22 +72,22 @@
     > div {
         width: 100%;
         max-width: calc(var(--max-width) * 0.5);
+        overflow-y: auto;
 
         @media #{$max-width-md} {
             max-width: var(--max-width);
+            height: var(--min-height);
         }
 
         &.results {
             padding: 15px 25px;
             background-color: $secondary-color;
-            color: #fff;
+            color: $contrast-color;
             white-space: pre-line;
-            overflow-y: auto;
             @include custom-scrollbar(7px, $secondary-color, $primary-color);
 
             @media #{$max-width-md} {
                 max-width: var(--max-width);
-                height: var(--min-height);
             }
 
             span {
@@ -85,8 +109,8 @@
         transform: translate(-50%, -50%);
         padding: 15px;
         border-radius: 50%;
-        z-index: 1;
         transition: transform ease 250ms;
+        z-index: 100;
         @extend %btn-reset-themed;
 
         @media #{$max-width-md} {

@@ -75,6 +75,11 @@ export default function Main(): JSX.Element {
         <main className={styles.main}>
             <ExerciseParser />
 
+            <header className={styles.header}>
+                <img src="/logo192.png" alt="JavaScript logo" />
+                <h1>JS Exercises</h1>
+            </header>
+
             <section className={styles.controlGroup}>
                 <CodeEditor key={`exercise_${currentIndex}`} code={currentExercise} setCode={setCurrentExercise} />
 
