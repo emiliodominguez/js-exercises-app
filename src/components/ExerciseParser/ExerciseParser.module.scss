@@ -55,6 +55,33 @@ $horizontal-padding: 25px;
             }
         }
 
+        &:active {
+            &::after {
+                opacity: 0.5;
+                transform: scale(1.5);
+                transition: opacity ease 0s, transform ease 0s;
+            }
+        }
+
+        &::after {
+            $ripple-size: 30px;
+
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: $ripple-size;
+            height: $ripple-size;
+            margin-top: -$ripple-size * 0.5;
+            margin-left: -$ripple-size * 0.5;
+            border-radius: 50%;
+            background-color: rgba(darken($success-green, 10%), 0.25);
+            transform: scale(0);
+            transition: opacity ease 750ms, transform ease 750ms;
+            z-index: -1;
+            opacity: 0;
+        }
+
         svg {
             height: 20px;
             transition: fill ease 250ms;
