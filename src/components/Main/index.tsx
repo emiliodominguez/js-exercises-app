@@ -126,7 +126,7 @@ export default function Main(): JSX.Element {
         // Mocks console log
         console.log = log =>
             setLogMessages(prev => {
-                const message = log instanceof Function ? log.toString() : JSON.stringify(log, null, 4);
+                const message = log instanceof Function ? log.toString() : JSON.stringify(log, null, 4).replace(/['"]+/g, "");
                 return { logs: [...prev.logs, message], error: "" };
             });
     }, []);
