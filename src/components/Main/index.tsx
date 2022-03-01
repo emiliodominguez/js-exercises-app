@@ -124,7 +124,11 @@ export default function Main(): JSX.Element {
 
     useEffect(() => {
         // Mocks console log
-        console.log = message => setLogMessages(prev => ({ logs: [...prev.logs, JSON.stringify(message, null, 4)], error: "" }));
+        console.log = log =>
+            setLogMessages(prev => {
+                const message = log instanceof Function ? log.toString() : JSON.stringify(log, null, 4);
+                return { logs: [...prev.logs, message], error: "" };
+            });
     }, []);
 
     useEventListener("keydown", showOutputOnKeyDown);
