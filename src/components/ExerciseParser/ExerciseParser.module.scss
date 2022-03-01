@@ -1,4 +1,5 @@
 @import "../../styles/placeholders";
+@import "../../styles/mixins";
 @import "../../styles/z-index";
 @import "../../styles/colors";
 
@@ -40,6 +41,7 @@ $horizontal-padding: 25px;
         resize: none;
         outline: none;
         box-shadow: 0 6px 8px rgba(#000, 0.1), 0 6px 8px rgba(#000, 0.15);
+        @include custom-scrollbar(7px, lighten($secondary-color, 75%), $secondary-color);
     }
 
     button {
