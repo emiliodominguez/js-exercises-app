@@ -62,8 +62,8 @@ export default function Main(): JSX.Element {
 
     /**
      * Handles the show resultant code action
-     * * Saves a copy of the original window object and restores it after eval's execution
-     * * Saves the exercise on local storage
+     * - Saves a copy of the original window object and restores it after eval's execution
+     * - Saves the exercise on local storage
      */
     function showResultantCode(): void {
         clearLogMessages();
