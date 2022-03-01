@@ -1,11 +1,14 @@
 [
     {
-        "code": "sayHi();\n\nfunction sayHi() {\n\tconsole.log('hi');\n}\n\nsayBye();\n\nconst sayBye = () => {\n\tconsole.log('bye');\n};\n\n// How would you fix this without modyfing the order nor the const declaration? "
+        "code": "/*\n\tHow would you change this for the log message\n\tto show \"Pepe says to study Math\"?\n*/\n\ntopic = 'JS';\n\nfunction classroom(teacher) {\n\treturn function() {\n\t\tconsole.log(`${teacher} says to study ${this.topic}`);\n\t};\n}\n\nconst assignment = classroom('Pepe');\nconst homework = { topic: 'Math' };\n\nassignment();"
     },
     {
-        "code": "topic = 'JS';\n\nfunction classroom(teacher) {\n\treturn function() {\n\t\tconsole.log(`${teacher} says to study ${this.topic}`);\n\t};\n}\n\nconst assignment = classroom('Pepe');\nconst homework = { topic: 'Math' };\n\nassignment();\n\n// How would you change this for the log message to show \"Pepe says to study Math\"?"
+        "code": "/* How would you fix this? */\n\nfunction classroom(teacher) {\n\treturn () => {\n\t\tconsole.log(`${teacher} says to study ${this.topic}`);\n\t};\n}\n\nconst homework = {\n\ttopic: 'Math',\n\tassignment: classroom('Pepe'),\n};\n\nhomework.assignment();"
     },
     {
-        "code": "function classroom(teacher) {\n\treturn () => {\n\t\tconsole.log(`${teacher} says to study ${this.topic}`);\n\t};\n}\n\nconst homework = {\n\ttopic: 'Math',\n\tassignment: classroom('Kyle'),\n};\n\nhomework.assignment();\n\n// How would you fix this?"
+        "code": "/* \n\tHow would you fix this in order for the\n\taddToCount function increases the Counter's count?\n*/\n\nconst Counter = {\n\tcount: 0,\n\tadd: function () {\n\t\tthis.count++;\n\t},\n};\n\nCounter.add();\nconsole.log(Counter.count);\n\nconst addToCount = Counter.add;\naddToCount();\n\nconsole.log(Counter.count);"
+    },
+    {
+        "code": "/*\n\tHow would you fix this without modyfing\n\tthe order nor the const declaration? \n*/\n\nsayHi();\n\nfunction sayHi() {\n\tconsole.log('hi');\n}\n\nsayBye();\n\nconst sayBye = () => {\n\tconsole.log('bye');\n};"
     }
 ]

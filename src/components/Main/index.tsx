@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import exercises from "../../config/exercises.json";
 import useEventListener from "../../hooks/useEventListener";
 import LocalStorageService from "../../services/local-storage.service";
-import { getRandomString } from "../../shared/helpers";
+import { areEqual, getRandomString } from "../../shared/helpers";
 import { icons } from "../../shared/icons";
 import CodeEditor from "../CodeEditor";
 import ExerciseParser from "../ExerciseParser";
@@ -144,7 +144,7 @@ export default function Main(): JSX.Element {
                 </button>
 
                 {/* Restore exercise button */}
-                {currentExercise !== exercises[currentIndex].code && (
+                {!areEqual(currentExercise, exercises[currentIndex].code) && (
                     <button className={styles.restoreBtn} title="Restore exercise" onClick={restoreExercise}>
                         {icons.restore}
                     </button>

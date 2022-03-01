@@ -17,4 +17,8 @@
     :global(.CodeMirror-hscrollbar) {
         @include custom-scrollbar(7px, $secondary-color, $primary-color);
     }
+
+    :global(.CodeMirror-scrollbar-filler) {
+        opacity: 0;
+    }
 }
