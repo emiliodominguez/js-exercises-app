@@ -12,7 +12,6 @@ interface LogMessages {
 }
 
 const count: number = exercises.length;
-const consoleLogRestore = console.log;
 
 export default function Main(): JSX.Element {
     const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -68,11 +67,6 @@ export default function Main(): JSX.Element {
 
     useEffect(() => {
         console.log = message => setLogMessages(prev => ({ logs: [...prev.logs, message], error: "" }));
-
-        return () => {
-            // Restores console.log mock
-            console.log = consoleLogRestore;
-        };
     }, []);
 
     useEffect(clearLogMessages, [currentIndex]);
