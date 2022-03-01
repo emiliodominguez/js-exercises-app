@@ -67,13 +67,14 @@ export default function Main(): JSX.Element {
      * Clears all log messages
      */
     function clearLogMessages(): void {
+        console.clear();
         setLogMessages({ logs: [], error: "" });
     }
 
     useEffect(() => {
+        clearLogMessages();
         // Mocks console log
         console.log = message => setLogMessages(prev => ({ logs: [...prev.logs, message], error: "" }));
-        clearLogMessages();
     }, []);
 
     useEffect(clearLogMessages, [currentIndex]);
