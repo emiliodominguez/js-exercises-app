@@ -5,6 +5,7 @@ import styles from "./CodeEditor.module.scss";
 interface CodeEditorProps {
     code: string;
     setCode: (code: string) => void;
+    onMount: () => void;
 }
 
 export default function CodeEditor(props: CodeEditorProps): JSX.Element {
@@ -15,6 +16,7 @@ export default function CodeEditor(props: CodeEditorProps): JSX.Element {
     function handleMount(editor: Editor): void {
         editor.setValue(props.code);
         editor.eachLine(line => editor.indentLine(editor.getLineNumber(line)!, "smart"));
+        props.onMount();
     }
 
     /**

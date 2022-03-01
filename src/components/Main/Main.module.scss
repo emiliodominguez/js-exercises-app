@@ -56,7 +56,7 @@
             height: var(--min-height);
         }
 
-        &.results {
+        &.output {
             padding: 15px 25px;
             background-color: $secondary-color;
             color: $contrast-color;
@@ -80,7 +80,7 @@
     }
 }
 
-.showResultsBtn,
+.showOutputBtn,
 .restoreBtn {
     position: absolute;
     border-radius: 50%;
@@ -101,7 +101,7 @@
     }
 }
 
-.showResultsBtn {
+.showOutputBtn {
     top: 50%;
     left: 50%;
     padding: 15px;

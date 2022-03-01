@@ -37,13 +37,22 @@ export default function Main(): JSX.Element {
     );
 
     /**
+     * Goes to a specific index
+     * @param index The index
+     */
+    function goToExercise(index: number): void {
+        localStorageService.set(getKey(currentIndex), currentExercise);
+        setCurrentExercise(localStorageService.get(getKey(index)) ?? exercises[index].code);
+        clearLogMessages();
+    }
+
+    /**
      * Goes to the previous exercise
      */
     function goToPreviousExercise(): void {
         setCurrentIndex(prev => {
             const index = prev === 0 ? count - 1 : prev - 1;
-            localStorageService.set(getKey(currentIndex), currentExercise);
-            setCurrentExercise(localStorageService.get(getKey(index)) ?? exercises[index].code);
+            goToExercise(index);
             return index;
         });
     }
@@ -54,18 +63,17 @@ export default function Main(): JSX.Element {
     function goToNextExercise(): void {
         setCurrentIndex(prev => {
             const index = (prev + 1) % count;
-            localStorageService.set(getKey(currentIndex), currentExercise);
-            setCurrentExercise(localStorageService.get(getKey(index)) ?? exercises[index].code);
+            goToExercise(index);
             return index;
         });
     }
 
     /**
-     * Handles the show resultant code action
+     * Handles the show output button action
      * - Saves a copy of the original window object and restores it after eval's execution
      * - Saves the exercise on local storage
      */
-    function showResultantCode(): void {
+    function showOutput(): void {
         clearLogMessages();
 
         try {
@@ -76,9 +84,9 @@ export default function Main(): JSX.Element {
                 eval.call(window, currentExercise);
 
                 const modifiedWindow = Object.keys(window);
-                const diff = modifiedWindow.filter(key => !originalWindow.includes(key));
+                const windowPropertiesDiff = modifiedWindow.filter(key => !originalWindow.includes(key));
 
-                diff.forEach(key => delete (window as { [key: string]: any })[key]);
+                windowPropertiesDiff.forEach(key => delete (window as { [key: string]: any })[key]);
                 localStorageService.set(getKey(currentIndex), currentExercise);
             }
         } catch (error) {
@@ -94,7 +102,6 @@ export default function Main(): JSX.Element {
     function clearLogMessages(): void {
         console.clear();
         setLogMessages({ logs: [], error: "" });
-        setRefreshHash(getRandomString());
     }
 
     /**
@@ -102,29 +109,25 @@ export default function Main(): JSX.Element {
      */
     function restoreExercise(): void {
         localStorageService.remove(getKey(currentIndex));
-        setCurrentExercise(exercises[currentIndex].code);
         clearLogMessages();
+        setCurrentExercise(exercises[currentIndex].code);
+        setRefreshHash(getRandomString());
     }
 
     /**
-     * Shows the results on keydown
+     * Shows the output of the exercise on keydown
      * @param e The event
      */
-    function showResultsOnKeyDown(e: KeyboardEvent): void {
-        if (e.ctrlKey && e.key === "Enter") showResultantCode();
+    function showOutputOnKeyDown(e: KeyboardEvent): void {
+        if (e.ctrlKey && e.key === "Enter") showOutput();
     }
 
     useEffect(() => {
-        clearLogMessages();
         // Mocks console log
         console.log = message => setLogMessages(prev => ({ logs: [...prev.logs, JSON.stringify(message, null, 4)], error: "" }));
     }, []);
 
-    useEffect(() => {
-        clearLogMessages();
-    }, [currentIndex]);
-
-    useEventListener("keydown", showResultsOnKeyDown);
+    useEventListener("keydown", showOutputOnKeyDown);
 
     return (
         <main className={styles.main}>
@@ -133,10 +136,16 @@ export default function Main(): JSX.Element {
             <Header />
 
             <section className={styles.controlGroup}>
-                <CodeEditor key={`${refreshHash}_${getKey(currentIndex)}`} code={currentExercise} setCode={setCurrentExercise} />
+                {/* Code editor */}
+                <CodeEditor
+                    key={`${refreshHash}_${getKey(currentIndex)}`}
+                    code={currentExercise}
+                    setCode={setCurrentExercise}
+                    onMount={clearLogMessages}
+                />
 
-                {/* Results */}
-                <div className={styles.results}>
+                {/* Output */}
+                <div className={styles.output}>
                     {logMessages.logs.map((message, i) => (
                         <span key={`log_${i}`}>{message}</span>
                     ))}
@@ -144,8 +153,8 @@ export default function Main(): JSX.Element {
                     {logMessages.error && <span className={styles.error}>{logMessages.error}</span>}
                 </div>
 
-                {/* Show results button */}
-                <button className={styles.showResultsBtn} title="Show results" onClick={showResultantCode}>
+                {/* Show output button */}
+                <button className={styles.showOutputBtn} title="Show output" onClick={showOutput}>
                     {icons.chevronFill}
                 </button>
 
