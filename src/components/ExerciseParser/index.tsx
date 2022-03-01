@@ -21,7 +21,7 @@ export default function ExerciseParser(): JSX.Element {
      * @param e The event
      */
     function handleKeyDown(e: KeyboardEvent): void {
-        if (e.ctrlKey && e.key === "a") {
+        if (e.ctrlKey && e.key === "q") {
             e.preventDefault();
 
             if (!visible) setVisibility(true);
