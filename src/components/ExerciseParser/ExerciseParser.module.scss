@@ -9,11 +9,12 @@ $horizontal-padding: 25px;
     top: 50%;
     left: 50%;
     padding: 50px $horizontal-padding 25px;
-    background-color: rgba($contrast-color, 0.25);
-    backdrop-filter: blur(15px);
+    background-color: rgba($contrast-color, 0.15);
+    backdrop-filter: blur(20px);
     transform: translate(-50%, -50%);
     box-shadow: 0 6px 8px rgba(#000, 0.5), 0 6px 8px rgba(#000, 0.55);
     z-index: z-index(high);
+    animation: open-popup ease forwards 250ms;
 
     &,
     textarea {
@@ -22,6 +23,7 @@ $horizontal-padding: 25px;
 
     h2 {
         color: $contrast-color;
+        font-size: 32px;
         font-weight: 200;
         margin-bottom: 25px;
     }
@@ -37,6 +39,7 @@ $horizontal-padding: 25px;
         font-size: 16px;
         resize: none;
         outline: none;
+        box-shadow: 0 6px 8px rgba(#000, 0.1), 0 6px 8px rgba(#000, 0.15);
     }
 
     button {
@@ -44,7 +47,7 @@ $horizontal-padding: 25px;
         bottom: 15px;
         right: 15px;
         z-index: z-index(basic);
-        @extend %btn-reset-themed;
+        @extend %btn-reset;
 
         &:hover {
             svg path {
@@ -81,5 +84,17 @@ $horizontal-padding: 25px;
         path {
             fill: $contrast-color;
         }
+    }
+}
+
+@keyframes open-popup {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
     }
 }
