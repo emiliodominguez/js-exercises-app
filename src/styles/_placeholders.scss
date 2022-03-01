@@ -1,5 +1,13 @@
+@import "./colors";
+
 %btn-reset {
-    background-color: transparent;
     border: none;
+    background-color: $primary-color;
+    box-shadow: 0 3px 4px rgba(#000, 0.1), 0 3px 4px rgba(#000, 0.15);
+    transition: background-color ease 250ms;
     cursor: pointer;
+
+    &:hover {
+        background-color: darken($primary-color, 10%);
+    }
 }

@@ -6,38 +6,58 @@
     min-height: 100vh;
     padding: 50px;
 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
     @media #{$max-width-md} {
+        justify-content: flex-start;
         padding: 25px;
     }
 }
 
 .editorContainer {
-    $container-min-height: 350px;
+    --min-height: 350px;
+    --max-width: 70vw;
 
     position: relative;
     width: 100%;
-    max-width: 70vw;
-    min-height: $container-min-height;
+    max-width: var(--max-width);
+    min-height: var(--min-height);
+    border-radius: 10px;
+    overflow: hidden;
     margin: 0 auto;
 
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 
     @media #{$max-width-xl} {
-        max-width: 100%;
+        --max-width: 85vw;
+
         min-height: unset;
     }
 
     @media #{$max-width-md} {
+        --min-height: 275px;
+
         grid-template-columns: 1fr;
     }
 
     > div {
         width: 100%;
 
+        @media #{$max-width-xl} {
+            max-width: calc(var(--max-width) * 0.5);
+        }
+
+        @media #{$max-width-md} {
+            max-width: var(--max-width);
+        }
+
         &.results {
             height: auto;
-            min-height: $container-min-height;
+            min-height: var(--min-height);
             padding: 25px;
             background-color: #fff;
         }
@@ -50,8 +70,6 @@
         transform: translate(-50%, -50%);
         padding: 15px;
         border-radius: 50%;
-        background-color: $warning-yellow;
-        box-shadow: 0 3px 4px rgba(#000, 0.1), 0 3px 4px rgba(#000, 0.15);
         z-index: 1;
         transition: transform ease 250ms;
         @extend %btn-reset;
@@ -65,10 +83,10 @@
         }
 
         &:hover {
-            transform: translate(-50%, -50%) scale(1.2);
+            transform: translate(-50%, -50%) scale(1.1);
 
             @media #{$max-width-md} {
-                transform: scale(1.2);
+                transform: scale(1.1);
             }
         }
 
@@ -91,8 +109,12 @@
     margin-top: 50px;
 
     button {
-        padding: 5px 15px;
-        background-color: #fff;
+        min-width: 125px;
+        padding: 10px 15px;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1;
+        text-transform: uppercase;
         border-radius: 5px;
         @extend %btn-reset;
 

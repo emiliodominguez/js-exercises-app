@@ -12,7 +12,7 @@
 body {
     background-image: linear-gradient(
         120deg,
-        $dark-gray,
-        darken($dark-gray, 100%)
+        $secondary-color,
+        darken($secondary-color, 100%)
     );
 }

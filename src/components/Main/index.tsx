@@ -45,9 +45,7 @@ export default function Main() {
     useEffect(() => {
         setCurrentExercise((prevExercise) => {
             const newExercise = exercises[currentIndex].code;
-
-            if (prevExercise === newExercise) return prevExercise;
-            return newExercise;
+            return prevExercise === newExercise ? prevExercise : newExercise;
         });
     }, [currentIndex]);
 
@@ -58,7 +56,8 @@ export default function Main() {
             <section className={styles.editorContainer}>
                 <CodeEditor
                     key={`exercise_${currentIndex}`}
-                    value={currentExercise}
+                    code={currentExercise}
+                    setCode={setCurrentExercise}
                 />
 
                 <button
@@ -75,8 +74,8 @@ export default function Main() {
 
             {/* DEBUG ONLY */}
             <div className={styles.navigation}>
-                <button onClick={goToPreviousExercise}>Go to previous</button>
-                <button onClick={goToNextExercise}>Go to next</button>
+                <button onClick={goToPreviousExercise}>Previous</button>
+                <button onClick={goToNextExercise}>Next</button>
             </div>
         </main>
     );
