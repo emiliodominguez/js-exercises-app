@@ -1,0 +1,26 @@
+@import "../../styles/media-queries";
+@import "../../styles/colors";
+
+.header {
+    margin-bottom: 75px;
+    color: $contrast-color;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    img {
+        max-height: 50px;
+    }
+
+    h1 {
+        line-height: 1;
+        font-size: clamp(32px, 5vw, 50px);
+        font-weight: 200;
+        margin-left: 25px;
+
+        @media #{$max-width-md} {
+            margin-top: 50px;
+        }
+    }
+}

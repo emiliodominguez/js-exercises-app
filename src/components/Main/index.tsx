@@ -3,6 +3,7 @@ import exercises from "../../config/exercises.json";
 import { icons } from "../../shared/icons";
 import CodeEditor from "../CodeEditor";
 import ExerciseParser from "../ExerciseParser";
+import Header from "../Header";
 import Navigation from "../Navigation";
 import styles from "./Main.module.scss";
 
@@ -66,6 +67,7 @@ export default function Main(): JSX.Element {
     }
 
     useEffect(() => {
+        // Mocks console log
         console.log = message => setLogMessages(prev => ({ logs: [...prev.logs, message], error: "" }));
     }, []);
 
@@ -75,10 +77,7 @@ export default function Main(): JSX.Element {
         <main className={styles.main}>
             <ExerciseParser />
 
-            <header className={styles.header}>
-                <img src="/logo192.png" alt="JavaScript logo" />
-                <h1>JS Exercises</h1>
-            </header>
+            <Header />
 
             <section className={styles.controlGroup}>
                 <CodeEditor key={`exercise_${currentIndex}`} code={currentExercise} setCode={setCurrentExercise} />
