@@ -1,4 +1,5 @@
 @import "../../styles/placeholders";
+@import "../../styles/z-index";
 @import "../../styles/colors";
 
 $horizontal-padding: 25px;
@@ -12,7 +13,7 @@ $horizontal-padding: 25px;
     backdrop-filter: blur(15px);
     transform: translate(-50%, -50%);
     box-shadow: 0 6px 8px rgba(#000, 0.5), 0 6px 8px rgba(#000, 0.55);
-    z-index: 100;
+    z-index: z-index(high);
 
     &,
     textarea {
@@ -42,7 +43,7 @@ $horizontal-padding: 25px;
         position: absolute;
         bottom: 15px;
         right: 15px;
-        z-index: 1;
+        z-index: z-index(basic);
         @extend %btn-reset-themed;
 
         &:hover {

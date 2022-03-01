@@ -1,6 +1,7 @@
 @import "../../styles/mixins";
 @import "../../styles/placeholders";
 @import "../../styles/media-queries";
+@import "../../styles/z-index";
 @import "../../styles/colors";
 
 .main {
@@ -110,7 +111,7 @@
         padding: 15px;
         border-radius: 50%;
         transition: transform ease 250ms;
-        z-index: 100;
+        z-index: z-index(moderate);
         @extend %btn-reset-themed;
 
         @media #{$max-width-md} {

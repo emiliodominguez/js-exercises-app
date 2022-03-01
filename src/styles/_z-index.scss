@@ -1,0 +1,15 @@
+$z-index: (
+    basic: 1,
+    moderate: 25,
+    medium: 50,
+    high: 100,
+    highest: 1000
+);
+
+@function z-index($key) {
+    @if (map-has-key($z-index, $key)) {
+        @return map-get($z-index, $key);
+    } @else {
+        @error "Key #{$key} doesn't exist";
+    }
+}
