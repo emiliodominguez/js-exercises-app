@@ -7,3 +7,11 @@
 export function areEqual(objectA: any, objectB: any): boolean {
     return JSON.stringify(objectA) === JSON.stringify(objectB);
 }
+
+/**
+ * Gets a random string
+ * @returns The random string
+ */
+export function getRandomString(): string {
+    return (Math.random() + 1).toString(36).substring(7);
+}

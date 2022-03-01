@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import exercises from "../../config/exercises.json";
 import useEventListener from "../../hooks/useEventListener";
+import LocalStorageService from "../../services/local-storage.service";
+import { getRandomString } from "../../shared/helpers";
 import { icons } from "../../shared/icons";
 import CodeEditor from "../CodeEditor";
 import ExerciseParser from "../ExerciseParser";
@@ -14,11 +16,25 @@ interface LogMessages {
 }
 
 const count: number = exercises.length;
+const indexKey: string = "exercise_{{index}}";
+
+/**
+ * Gets a key depending on the exercise index
+ * @param index The index
+ * @returns The key string
+ */
+function getKey(index: number): string {
+    return indexKey.replace("{{index}}", index.toString());
+}
 
 export default function Main(): JSX.Element {
-    const [currentIndex, setCurrentIndex] = useState<number>(0);
+    const { current: localStorageService } = useRef<LocalStorageService>(new LocalStorageService());
     const [logMessages, setLogMessages] = useState<LogMessages>({ logs: [], error: "" });
-    const [currentExercise, setCurrentExercise] = useState<string>(() => exercises[currentIndex].code);
+    const [refreshHash, setRefreshHash] = useState<string>("");
+    const [currentIndex, setCurrentIndex] = useState<number>(0);
+    const [currentExercise, setCurrentExercise] = useState<string>(
+        () => localStorageService.get(getKey(currentIndex)) ?? exercises[currentIndex].code
+    );
 
     /**
      * Goes to the previous exercise
@@ -26,7 +42,8 @@ export default function Main(): JSX.Element {
     function goToPreviousExercise(): void {
         setCurrentIndex(prev => {
             const index = prev === 0 ? count - 1 : prev - 1;
-            setCurrentExercise(exercises[index].code);
+            localStorageService.set(getKey(currentIndex), currentExercise);
+            setCurrentExercise(localStorageService.get(getKey(index)) ?? exercises[index].code);
             return index;
         });
     }
@@ -37,7 +54,8 @@ export default function Main(): JSX.Element {
     function goToNextExercise(): void {
         setCurrentIndex(prev => {
             const index = (prev + 1) % count;
-            setCurrentExercise(exercises[index].code);
+            localStorageService.set(getKey(currentIndex), currentExercise);
+            setCurrentExercise(localStorageService.get(getKey(index)) ?? exercises[index].code);
             return index;
         });
     }
@@ -70,6 +88,16 @@ export default function Main(): JSX.Element {
     function clearLogMessages(): void {
         console.clear();
         setLogMessages({ logs: [], error: "" });
+        setRefreshHash(getRandomString());
+    }
+
+    /**
+     * Restore exercise to its initial state
+     */
+    function restoreExercise(): void {
+        localStorageService.remove(getKey(currentIndex));
+        setCurrentExercise(exercises[currentIndex].code);
+        clearLogMessages();
     }
 
     /**
@@ -86,7 +114,9 @@ export default function Main(): JSX.Element {
         console.log = message => setLogMessages(prev => ({ logs: [...prev.logs, JSON.stringify(message, null, 4)], error: "" }));
     }, []);
 
-    useEffect(clearLogMessages, [currentIndex]);
+    useEffect(() => {
+        clearLogMessages();
+    }, [currentIndex]);
 
     useEventListener("keydown", showResultsOnKeyDown);
 
@@ -97,12 +127,9 @@ export default function Main(): JSX.Element {
             <Header />
 
             <section className={styles.controlGroup}>
-                <CodeEditor key={`exercise_${currentIndex}`} code={currentExercise} setCode={setCurrentExercise} />
+                <CodeEditor key={`${refreshHash}_${getKey(currentIndex)}`} code={currentExercise} setCode={setCurrentExercise} />
 
-                <button className={styles.showResultsBtn} onClick={showResultantCode}>
-                    {icons.chevronFill}
-                </button>
-
+                {/* Results */}
                 <div className={styles.results}>
                     {logMessages.logs.map((message, i) => (
                         <span key={`log_${i}`}>{message}</span>
@@ -110,6 +137,18 @@ export default function Main(): JSX.Element {
 
                     {logMessages.error && <span className={styles.error}>{logMessages.error}</span>}
                 </div>
+
+                {/* Show results button */}
+                <button className={styles.showResultsBtn} onClick={showResultantCode}>
+                    {icons.chevronFill}
+                </button>
+
+                {/* Restore exercise button */}
+                {currentExercise !== exercises[currentIndex].code && (
+                    <button className={styles.restoreBtn} title="Restore exercise" onClick={restoreExercise}>
+                        {icons.restore}
+                    </button>
+                )}
             </section>
 
             <Navigation previous={goToPreviousExercise} next={goToNextExercise} />

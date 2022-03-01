@@ -1,3 +1,4 @@
+@import "../../styles/media-queries";
 @import "../../styles/mixins";
 @import "../../styles/colors";
 
@@ -5,9 +6,13 @@
     :global(.CodeMirror) {
         height: 100%;
         font-size: 16px;
+
+        @media #{$max-width-md} {
+            padding-top: 25px;
+            padding-bottom: 25px;
+        }
     }
 
-    
     :global(.CodeMirror-vscrollbar),
     :global(.CodeMirror-hscrollbar) {
         @include custom-scrollbar(7px, $secondary-color, $primary-color);
