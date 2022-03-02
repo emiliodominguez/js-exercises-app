@@ -15,7 +15,7 @@
         "code": "/*  What's the output?  */\n\nconst person = { name: \"Lydia\" };\n\nfunction sayHi(age) {\n\treturn `${this.name} is ${age}`;\n}\n\nconsole.log(sayHi.call(person, 21));\nconsole.log(sayHi.bind(person, 21));\n"
     },
     {
-        "code": "/* Implement a generator to iterate over a list of fake todos */\n\nfunction* generateTodos(todos) {\n\tfor (const todo of todos) {\n\t\t// The generator code here...\n\t}\n}\n\nfunction iterateTodos(todos) {\n\t// Implement the generator here...\n}\n\n// Don't worry for this part (just for now...) 😎\nfetch(\"https://jsonplaceholder.typicode.com/todos/\")\n\t.then((response) => response.json())\n\t.then((todos) => iterateTodos(todos))\n\t.catch((e) => console.error(e));\n"
+        "code": "/* Implement a generator to iterate over a list of fake todos */\n\nfunction* generateTodos(todos) {\n\t// The generator code here...\n}\n\nfunction iterateTodos(todos) {\n\t// Implement the generator here...\n}\n\n// Don't worry for this part (just for now...) 😎\nfetch(\"https://jsonplaceholder.typicode.com/todos/\")\n\t.then((response) => response.json())\n\t.then((todos) => iterateTodos(todos))\n\t.catch((e) => console.error(e));\n"
     },
     {
         "code": "/* Implement a console spinner using the following generator */\n\nfunction* spinnerGenerator() {\n\twhile (true) {\n\t\tyield* [\"\\\\\", \"|\", \"/\", \"--\"];\n\t}\n}\n\n// Your implementation here...\n"
