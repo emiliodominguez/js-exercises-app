@@ -100,7 +100,6 @@ export default function Main(): JSX.Element {
      * Clears all log messages
      */
     function clearLogMessages(): void {
-        console.clear();
         setLogMessages({ logs: [], error: "" });
     }
 
@@ -123,7 +122,8 @@ export default function Main(): JSX.Element {
     }
 
     useEffect(() => {
-        // Mocks console log
+        // Mocks console methods
+        console.clear = clearLogMessages;
         console.log = log =>
             setLogMessages(prev => {
                 const message = log instanceof Function ? log.toString() : JSON.stringify(log, null, 4);
