@@ -77,18 +77,18 @@ export default function Main(): JSX.Element {
         clearLogMessages();
 
         try {
-            if (currentExercise) {
-                const originalWindow = Object.keys(window);
+            const originalWindow = Object.keys(window);
 
-                // eslint-disable-next-line no-eval
-                (0, eval)(currentExercise)();
-
+            setTimeout(() => {
                 const modifiedWindow = Object.keys(window);
                 const windowPropertiesDiff = modifiedWindow.filter(key => !originalWindow.includes(key));
 
                 windowPropertiesDiff.forEach(key => delete (window as { [key: string]: any })[key]);
                 localStorageService.set(getKey(currentIndex), currentExercise);
-            }
+            });
+
+            // eslint-disable-next-line no-eval
+            (1, eval)(`{${currentExercise}}`)();
         } catch (error) {
             const { name, message } = error as EvalError;
 
