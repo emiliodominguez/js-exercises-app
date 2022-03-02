@@ -81,7 +81,7 @@ export default function Main(): JSX.Element {
                 const originalWindow = Object.keys(window);
 
                 // eslint-disable-next-line no-eval
-                eval.call(window, currentExercise);
+                (0, eval)(currentExercise)();
 
                 const modifiedWindow = Object.keys(window);
                 const windowPropertiesDiff = modifiedWindow.filter(key => !originalWindow.includes(key));
@@ -126,7 +126,7 @@ export default function Main(): JSX.Element {
         // Mocks console log
         console.log = log =>
             setLogMessages(prev => {
-                const message = log instanceof Function ? log.toString() : JSON.stringify(log, null, 4).replace(/['"]+/g, "");
+                const message = log instanceof Function ? log.toString() : JSON.stringify(log, null, 4);
                 return { logs: [...prev.logs, message], error: "" };
             });
     }, []);
