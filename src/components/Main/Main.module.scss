@@ -55,10 +55,6 @@
         }
     }
 
-    > div {
-        max-width: var(--max-width);
-    }
-
     @media #{$max-width-xl} {
         --max-width: 85vw;
     }
