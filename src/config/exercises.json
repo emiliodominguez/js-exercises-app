@@ -7,5 +7,8 @@
     },
     {
         "code": "/* \n    - Can you explaing what the \"Object.setPrototypeOf\" method is doing?\n    - How would you do this differently using classes?\n*/\n\nconst CommonMethods = {\n\tsayHi() {\n\t\tconsole.log(`Hi I'm ${this.name} from the ${this.discipline} discipline...`)\n\t},\n\tlearn() {\n\t\tconsole.log(`${this.name} is learning ${this.skills.join(', ')}`);\n\t},\n};\n\nclass Intern {\n\tconstructor(name, discipline, ...skills) {\n\t\tthis.name = name;\n\t\tthis.discipline = discipline;\n\t\tthis.skills = skills;\n\t}\n}\n\nObject.setPrototypeOf(Intern.prototype, CommonMethods);\n\nconst developmentIntern = new Intern(\"Fulanito\", \"Development\", \"Javascript\", \"HTML\", \"CSS\");\ndevelopmentIntern.sayHi();\ndevelopmentIntern.learn();\n\nconst testingIntern = new Intern(\"Menganito\", \"Testing\", \"Javascript\", \"Manual testing\", \"Automation\");\ntestingIntern.sayHi();\ntestingIntern.learn();\n"
+    },
+    {
+        "code": "/*\n    Create a Character class that uses the data fetched from the API\n    and on the characters iteration shows some data about the character\n\tin a user friendly way...\n*/\n\nfunction mapCharacters(characters) {\n\t// Example character\n\tconsole.log(characters[0]);\n\n\tfor (const character of characters) {\n\t\t// Do your magic here...\n\t}\n}\n\n// Don't worry for this part right now...\nfetch(\"https://rickandmortyapi.com/api/character\")\n\t.then((response) => response.json())\n\t.then((json) => mapCharacters(json.results))\n\t.catch((error) => console.error(error));\n"
     }
 ]
