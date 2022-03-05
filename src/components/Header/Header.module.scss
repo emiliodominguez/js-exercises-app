@@ -9,8 +9,17 @@
     justify-content: center;
     align-items: flex-end;
 
+    @media #{$max-width-md} {
+        margin-top: 25px;
+        margin-bottom: 50px;
+    }
+
     img {
         max-height: 50px;
+
+        @media #{$max-width-md} {
+            max-height: 40px;
+        }
     }
 
     h1 {
@@ -18,9 +27,5 @@
         font-size: clamp(32px, 5vw, 50px);
         font-weight: 200;
         margin-left: 25px;
-
-        @media #{$max-width-md} {
-            margin-top: 50px;
-        }
     }
 }
