@@ -163,16 +163,18 @@ export default function Main(): JSX.Element {
                     {icons.chevronFill}
                 </button>
 
-                {/* Restore exercise button */}
-                {!areEqual(currentExercise, exercises[currentIndex].code) && (
-                    <button className={styles.restoreBtn} title="Restore exercise" onClick={restoreExercise}>
-                        {icons.restore}
-                    </button>
-                )}
+                <div className={styles.editorActions}>
+                    {/* Restore exercise button */}
+                    {!areEqual(currentExercise, exercises[currentIndex].code) && (
+                        <button title="Restore exercise" onClick={restoreExercise}>
+                            {icons.restore}
+                        </button>
+                    )}
 
-                <button className={styles.fullScreenToggler} title="Toggle full screen mode" onClick={() => setFullScreenMode(!fullScreenMode)}>
-                    {fullScreenMode ? icons.shrink : icons.enlarge}
-                </button>
+                    <button title="Toggle full screen mode" onClick={() => setFullScreenMode(!fullScreenMode)}>
+                        {fullScreenMode ? icons.shrink : icons.enlarge}
+                    </button>
+                </div>
             </section>
 
             <Navigation current={currentIndex} previous={goToPreviousExercise} next={goToNextExercise} />
