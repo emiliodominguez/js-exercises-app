@@ -13,5 +13,8 @@
     },
     {
         "code": "// How would you fix this?\n\nclass Person {\n\t#name;\n\n\t#lastName;\n\n\tget fullName() {\n\t\treturn `${this.#name} ${this.#lastName}`;\n\t}\n}\n\nconst fulanito = new Person();\n\nfulanito.name = \"Fulanito\";\nfulanito.lastName = \"De Tal\";\n\nconsole.log(fulanito.fullName);\n"
+    },
+    {
+        "code": "/*\n\tGiven this multidimensional numbers array...\n\t- Write a non recursive function that outputs the sum of all numbers\n\t- The same as before but this time do it using a recursion\n*/\n\nconst numbers = [1, [[23], 13], [45], 59, [92, 100, [[7], [[28]], 9]], 3];\n\nfunction sumNonRecursive(array) {\n\t// Your non recursive magic here\n}\n\nfunction sumRecursive(array) {\n\t// Your recursive magic here}\n}\n\nconst nonRecursiveResult = sumNonRecursive(numbers);\nconst recursiveResult = sumRecursive(numbers);\n\nconsole.log(nonRecursiveResult);\nconsole.log(recursiveResult);\n"
     }
 ]
