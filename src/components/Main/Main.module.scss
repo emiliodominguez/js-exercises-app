@@ -35,6 +35,29 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 
+    &.fullScreenMode {
+        --max-width: 100%;
+        --min-height: 100%;
+
+        $offset: 15px;
+
+        position: fixed;
+        top: $offset;
+        left: $offset;
+        right: $offset;
+        bottom: $offset;
+        width: calc(100% - #{$offset * 2});
+        height: calc(100% - #{$offset * 2});
+
+        > div {
+            max-width: var(--max-width);
+        }
+    }
+
+    > div {
+        max-width: var(--max-width);
+    }
+
     @media #{$max-width-xl} {
         --max-width: 85vw;
     }
@@ -81,12 +104,12 @@
 }
 
 .showOutputBtn,
-.restoreBtn {
+.restoreBtn,
+.fullScreenToggler {
     position: absolute;
-    border-radius: 50%;
+    transform-origin: center;
     transition: transform ease 250ms, background-color ease 250ms;
     z-index: z-index(moderate);
-    @extend %btn-reset-themed;
 
     @media #{$max-width-md} {
         transform: unset;
@@ -99,6 +122,12 @@
     svg {
         display: block;
     }
+}
+
+.showOutputBtn,
+.restoreBtn {
+    border-radius: 50%;
+    @extend %btn-reset-themed;
 }
 
 .showOutputBtn {
@@ -146,5 +175,20 @@
     svg {
         height: 18px;
         margin-left: -2px;
+    }
+}
+
+.fullScreenToggler {
+    @extend %btn-reset;
+    right: 15px;
+    bottom: 15px;
+    color: #fff;
+
+    svg {
+        height: 18px;
+
+        path {
+            fill: rgba($contrast-color, 0.5);
+        }
     }
 }

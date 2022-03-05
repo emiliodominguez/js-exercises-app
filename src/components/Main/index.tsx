@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import exercises from "../../config/exercises.json";
 import useEventListener from "../../hooks/useEventListener";
 import LocalStorageService from "../../services/local-storage.service";
-import { areEqual, getRandomString } from "../../shared/helpers";
+import { areEqual, className, getRandomString } from "../../shared/helpers";
 import { icons } from "../../shared/icons";
 import CodeEditor from "../CodeEditor";
 import ExerciseParser from "../ExerciseParser";
@@ -31,6 +31,7 @@ export default function Main(): JSX.Element {
     const { current: localStorageService } = useRef<LocalStorageService>(new LocalStorageService());
     const [logMessages, setLogMessages] = useState<LogMessages>({ logs: [], error: "" });
     const [refreshHash, setRefreshHash] = useState<string>("");
+    const [fullScreenMode, setFullScreenMode] = useState<boolean>(false);
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const [currentExercise, setCurrentExercise] = useState<string>(
         () => localStorageService.get(getKey(currentIndex)) ?? exercises[currentIndex].code
@@ -139,7 +140,7 @@ export default function Main(): JSX.Element {
 
             <Header />
 
-            <section className={styles.controlGroup}>
+            <section {...className(styles.controlGroup, { [styles.fullScreenMode]: fullScreenMode })}>
                 {/* Code editor */}
                 <CodeEditor
                     key={`${refreshHash}_${getKey(currentIndex)}`}
@@ -168,6 +169,10 @@ export default function Main(): JSX.Element {
                         {icons.restore}
                     </button>
                 )}
+
+                <button className={styles.fullScreenToggler} title="Toggle full screen mode" onClick={() => setFullScreenMode(!fullScreenMode)}>
+                    {fullScreenMode ? icons.shrink : icons.enlarge}
+                </button>
             </section>
 
             <Navigation current={currentIndex} previous={goToPreviousExercise} next={goToNextExercise} />
