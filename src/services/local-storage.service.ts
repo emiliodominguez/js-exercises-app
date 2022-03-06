@@ -25,4 +25,11 @@ export default class LocalStorageService {
     remove(key: string): void {
         localStorage.removeItem(key);
     }
+
+    /**
+     * Clears the local storage
+     */
+    clear(): void {
+        localStorage.clear();
+    }
 }

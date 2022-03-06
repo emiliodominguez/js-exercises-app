@@ -28,13 +28,13 @@ function getKey(index: number): string {
 }
 
 export default function Main(): JSX.Element {
-    const { current: localStorageService } = useRef<LocalStorageService>(new LocalStorageService());
+    const localStorageService = useRef<LocalStorageService>(new LocalStorageService());
     const [logMessages, setLogMessages] = useState<LogMessages>({ logs: [], error: "" });
     const [refreshHash, setRefreshHash] = useState<string>("");
     const [fullScreenMode, setFullScreenMode] = useState<boolean>(false);
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const [currentExercise, setCurrentExercise] = useState<string>(
-        () => localStorageService.get(getKey(currentIndex)) ?? exercises[currentIndex].code
+        () => localStorageService.current.get(getKey(currentIndex)) ?? exercises[currentIndex].code
     );
 
     /**
@@ -42,8 +42,8 @@ export default function Main(): JSX.Element {
      * @param index The index
      */
     function goToExercise(index: number): void {
-        localStorageService.set(getKey(currentIndex), currentExercise);
-        setCurrentExercise(localStorageService.get(getKey(index)) ?? exercises[index].code);
+        localStorageService.current.set(getKey(currentIndex), currentExercise);
+        setCurrentExercise(localStorageService.current.get(getKey(index)) ?? exercises[index].code);
         clearLogMessages();
     }
 
@@ -85,7 +85,7 @@ export default function Main(): JSX.Element {
                 const windowPropertiesDiff = modifiedWindow.filter(key => !originalWindow.includes(key));
 
                 windowPropertiesDiff.forEach(key => delete (window as { [key: string]: any })[key]);
-                localStorageService.set(getKey(currentIndex), currentExercise);
+                localStorageService.current.set(getKey(currentIndex), currentExercise);
             });
 
             // eslint-disable-next-line no-eval
@@ -108,10 +108,10 @@ export default function Main(): JSX.Element {
      * Restore exercise to its initial state
      */
     function restoreExercise(): void {
-        localStorageService.remove(getKey(currentIndex));
         clearLogMessages();
         setCurrentExercise(exercises[currentIndex].code);
         setRefreshHash(getRandomString());
+        localStorageService.current.remove(getKey(currentIndex));
     }
 
     /**
@@ -130,6 +130,9 @@ export default function Main(): JSX.Element {
                 const message = log instanceof Function ? log.toString() : JSON.stringify(log, null, 4);
                 return { logs: [...prev.logs, message], error: "" };
             });
+
+        // Clears local storage
+        localStorageService.current.clear();
     }, []);
 
     useEventListener("keydown", showOutputOnKeyDown);
