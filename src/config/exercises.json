@@ -16,14 +16,5 @@
     },
     {
         "code": "/*\n\tCreate a function that recieves a prefix as argument\n\tand returns a function that adds that prefix to any given value...\n*/\n\nfunction withPrefix() {\n\t// Your magic here...\n}\n\nwithPrefix();\n"
-    },
-    {
-        "code": "/*\n\tCreate a \"calculator\" function that takes an \"operation\" function\n\tas argument and returns another function that executes that operation\n\tover two numbers...\n*/\n\nfunction calculate(operation) {\n\t// Your magic here\n}\n\nconst operation = calculate();\nconsole.log(operation);\n"
-    },
-    {
-        "code": "/*\n    Create a function that takes a number as argument and\n    returns a set of operations to execute over it\n\n    Extra mile: can you make this function chainable?\n*/\n\nfunction calculate(number) {\n\t// Your math magic goes here...\n}\n\nconst result = calculate(6);\n\nconsole.log(result);\n"
-    },
-    {
-        "code": "/*\n\tGiven this multidimensional numbers array...\n\t- Write a non recursive function that outputs the sum of all numbers\n\t- The same as before but this time do it using a recursion\n*/\n\nconst numbers = [1, [[23], 13], [45], 59, [92, 100, [[7], [[28]], 9]], 3];\n\nfunction sumNonRecursive(array) {\n\t// Your non recursive magic here\n}\n\nfunction sumRecursive(array) {\n\t// Your recursive magic here\n}\n\nconst nonRecursiveResult = sumNonRecursive(numbers);\nconst recursiveResult = sumRecursive(numbers);\n\nconsole.log(nonRecursiveResult);\nconsole.log(recursiveResult);\n"
     }
 ]
