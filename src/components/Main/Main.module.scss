@@ -17,6 +17,30 @@
         justify-content: flex-start;
         padding: 25px;
     }
+
+    &.hardMode {
+        &::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            box-shadow: 0 0 40px rgba($error-red, 0.5) inset;
+            pointer-events: none;
+            animation: blink ease-in-out infinite 1s;
+        }
+
+        :global(.difficulty-btn) {
+            svg {
+                opacity: 1;
+
+                path {
+                    fill: $error-red;
+                }
+            }
+        }
+    }
 }
 
 .controlGroup {
@@ -150,37 +174,13 @@
     }
 }
 
-.editorActions {
-    position: absolute;
-    bottom: 15px;
-    right: 15px;
+@keyframes blink {
+    0%,
+    100% {
+        opacity: 0.75;
+    }
 
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: flex-end;
-
-    button {
-        @extend %btn-reset;
-
-        &:hover {
-            svg {
-                opacity: 0.8;
-            }
-        }
-
-        + button {
-            margin-top: 15px;
-        }
-
-        svg {
-            width: 18px;
-            opacity: 0.4;
-            transition: opacity ease 250ms;
-
-            path {
-                fill: $contrast-color;
-            }
-        }
+    50% {
+        opacity: 0.25;
     }
 }

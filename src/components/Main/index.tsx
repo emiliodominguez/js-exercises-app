@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import exercises from "../../config/exercises.json";
 import useEventListener from "../../hooks/useEventListener";
 import LocalStorageService from "../../services/local-storage.service";
 import { areEqual, className, getRandomString } from "../../shared/helpers";
 import { icons } from "../../shared/icons";
+import Actions from "../Actions";
 import CodeEditor from "../CodeEditor";
 import ExerciseParser from "../ExerciseParser";
 import Header from "../Header";
@@ -15,7 +16,18 @@ interface LogMessages {
     error: string;
 }
 
-const count: number = exercises.length;
+interface Configuration {
+    currentIndex: number;
+    fullScreen: boolean;
+    hardMode: boolean;
+    hash: string;
+}
+
+interface Exercise {
+    code: string;
+    hard?: boolean;
+}
+
 const indexKey: string = "exercise_{{index}}";
 
 /**
@@ -30,20 +42,43 @@ function getKey(index: number): string {
 export default function Main(): JSX.Element {
     const localStorageService = useRef<LocalStorageService>(new LocalStorageService());
     const [logMessages, setLogMessages] = useState<LogMessages>({ logs: [], error: "" });
-    const [refreshHash, setRefreshHash] = useState<string>("");
-    const [fullScreenMode, setFullScreenMode] = useState<boolean>(false);
-    const [currentIndex, setCurrentIndex] = useState<number>(0);
-    const [currentExercise, setCurrentExercise] = useState<string>(
-        () => localStorageService.current.get(getKey(currentIndex)) ?? exercises[currentIndex].code
-    );
+    const [configuration, setConfiguration] = useState<Configuration>({ currentIndex: 0, fullScreen: false, hardMode: false, hash: "" });
+    const filteredExercises = useMemo<Exercise[]>(getFilterdExercises, [configuration.hardMode]);
+    const [currentExercise, setCurrentExercise] = useState<string>(() => getCurrentExercise(configuration.currentIndex));
+
+    /**
+     * Updates the configuration
+     * @param configuration The updated configuration
+     */
+    function updateConfiguration(configuration: Partial<Configuration>): void {
+        setConfiguration(prevConfiguration => ({ ...prevConfiguration, ...configuration }));
+    }
+
+    /**
+     * Gets the current exercise
+     * @param index The exercise index
+     * @returns The exercise string
+     */
+    function getCurrentExercise(index: number): string {
+        return localStorageService.current.get(getKey(index)) ?? filteredExercises[index].code;
+    }
+
+    /**
+     * Gets the filtered array of exercises by difficulty
+     * @returns The exercises array
+     */
+    function getFilterdExercises(): Exercise[] {
+        return exercises.filter(exercise => (configuration.hardMode ? exercise : !exercise.hard));
+    }
 
     /**
      * Goes to a specific index
      * @param index The index
      */
     function goToExercise(index: number): void {
-        localStorageService.current.set(getKey(currentIndex), currentExercise);
-        setCurrentExercise(localStorageService.current.get(getKey(index)) ?? exercises[index].code);
+        localStorageService.current.set(getKey(configuration.currentIndex), currentExercise);
+        updateConfiguration({ currentIndex: index });
+        setCurrentExercise(getCurrentExercise(index));
         clearLogMessages();
     }
 
@@ -51,22 +86,57 @@ export default function Main(): JSX.Element {
      * Goes to the previous exercise
      */
     function goToPreviousExercise(): void {
-        setCurrentIndex(prev => {
-            const index = prev === 0 ? count - 1 : prev - 1;
-            goToExercise(index);
-            return index;
-        });
+        const index = configuration.currentIndex === 0 ? filteredExercises.length - 1 : configuration.currentIndex - 1;
+        goToExercise(index);
     }
 
     /**
      * Goes to the next exercise
      */
     function goToNextExercise(): void {
-        setCurrentIndex(prev => {
-            const index = (prev + 1) % count;
-            goToExercise(index);
-            return index;
-        });
+        const index = (configuration.currentIndex + 1) % filteredExercises.length;
+        goToExercise(index);
+    }
+
+    /**
+     * Shows the output of the exercise on keydown
+     * @param e The event
+     */
+    function showOutputOnKeyDown(e: KeyboardEvent): void {
+        if (e.ctrlKey && e.key === "Enter") showOutput();
+    }
+
+    /**
+     * Toggles the hard mode and set the current index as 0
+     */
+    function toggleHardMode(): void {
+        localStorageService.current.clear();
+        updateConfiguration({ hardMode: !configuration.hardMode });
+        goToExercise(0);
+    }
+
+    /**
+     * Toggles the full screen mode
+     */
+    function toggleFullScreen(): void {
+        updateConfiguration({ fullScreen: !configuration.fullScreen });
+    }
+
+    /**
+     * Clears all log messages
+     */
+    function clearLogMessages(): void {
+        setLogMessages({ logs: [], error: "" });
+    }
+
+    /**
+     * Restore exercise to its initial state
+     */
+    function restoreExercise(): void {
+        clearLogMessages();
+        setCurrentExercise(filteredExercises[configuration.currentIndex].code);
+        updateConfiguration({ hash: getRandomString() });
+        localStorageService.current.remove(getKey(configuration.currentIndex));
     }
 
     /**
@@ -85,7 +155,7 @@ export default function Main(): JSX.Element {
                 const windowPropertiesDiff = modifiedWindow.filter(key => !originalWindow.includes(key));
 
                 windowPropertiesDiff.forEach(key => delete (window as { [key: string]: any })[key]);
-                localStorageService.current.set(getKey(currentIndex), currentExercise);
+                localStorageService.current.set(getKey(configuration.currentIndex), currentExercise);
             });
 
             // eslint-disable-next-line no-eval
@@ -95,31 +165,6 @@ export default function Main(): JSX.Element {
 
             if (!message.includes("eval")) setLogMessages(prev => ({ ...prev, error: `${name}: ${message}` }));
         }
-    }
-
-    /**
-     * Clears all log messages
-     */
-    function clearLogMessages(): void {
-        setLogMessages({ logs: [], error: "" });
-    }
-
-    /**
-     * Restore exercise to its initial state
-     */
-    function restoreExercise(): void {
-        clearLogMessages();
-        setCurrentExercise(exercises[currentIndex].code);
-        setRefreshHash(getRandomString());
-        localStorageService.current.remove(getKey(currentIndex));
-    }
-
-    /**
-     * Shows the output of the exercise on keydown
-     * @param e The event
-     */
-    function showOutputOnKeyDown(e: KeyboardEvent): void {
-        if (e.ctrlKey && e.key === "Enter") showOutput();
     }
 
     useEffect(() => {
@@ -138,15 +183,15 @@ export default function Main(): JSX.Element {
     useEventListener("keydown", showOutputOnKeyDown);
 
     return (
-        <main className={styles.main}>
+        <main {...className(styles.main, { [styles.hardMode]: configuration.hardMode })}>
             <ExerciseParser />
 
             <Header />
 
-            <section {...className(styles.controlGroup, { [styles.fullScreenMode]: fullScreenMode })}>
+            <section {...className(styles.controlGroup, { [styles.fullScreenMode]: configuration.fullScreen })}>
                 {/* Code editor */}
                 <CodeEditor
-                    key={`${refreshHash}_${getKey(currentIndex)}`}
+                    key={`${configuration.hash}_${getKey(configuration.currentIndex)}`}
                     code={currentExercise}
                     setCode={setCurrentExercise}
                     onMount={clearLogMessages}
@@ -166,21 +211,16 @@ export default function Main(): JSX.Element {
                     {icons.chevronFill}
                 </button>
 
-                <div className={styles.editorActions}>
-                    {/* Restore exercise button */}
-                    {!areEqual(currentExercise, exercises[currentIndex].code) && (
-                        <button title="Restore exercise" onClick={restoreExercise}>
-                            {icons.restore}
-                        </button>
-                    )}
-
-                    <button title="Toggle full screen mode" onClick={() => setFullScreenMode(!fullScreenMode)}>
-                        {fullScreenMode ? icons.shrink : icons.enlarge}
-                    </button>
-                </div>
+                <Actions
+                    showRestoreButton={!areEqual(currentExercise, exercises[configuration.currentIndex].code)}
+                    fullScreenModeActive={configuration.fullScreen}
+                    restoreExercise={restoreExercise}
+                    toggleHardMode={toggleHardMode}
+                    toggleFullScreen={toggleFullScreen}
+                />
             </section>
 
-            <Navigation current={currentIndex} previous={goToPreviousExercise} next={goToNextExercise} />
+            <Navigation current={configuration.currentIndex} previous={goToPreviousExercise} next={goToNextExercise} />
         </main>
     );
 }
