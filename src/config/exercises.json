@@ -1,6 +1,6 @@
 [
     {
-        "code": "/**\n * Can you tell the result before executing the code \n * and explain why?\n */\n\nfunction run(callback) {\n\tsetTimeout(callback);\n\tconsole.log(\"I'm running!\");\n}\n\nfunction eatStew() {\n\tconsole.log(\"I'm eating a porotos stew!\");\n}\n\nrun(eatStew);\n"
+        "code": "/**\n * Can you tell the result before executing the code and explain why?\n */\n\nfunction run(callback) {\n\tsetTimeout(callback);\n\tconsole.log(\"I'm running!\");\n}\n\nfunction eatStew() {\n\tconsole.log(\"I'm eating a porotos stew!\");\n}\n\nrun(eatStew);\n"
     },
     {
         "code": "/**\n * How would you refactor this to the async/await pattern\n */\n\nfetch(\"https://rickandmortyapi.com/api/character\")\n\t.then((response) => response.json())\n\t.then((response) => console.log(response.results))\n\t.catch((error) => console.error(error));\n"
