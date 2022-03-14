@@ -29,6 +29,7 @@ interface Exercise {
 }
 
 const indexKey: string = "exercise_{{index}}";
+const exerciseTrashCleanerKey = Symbol("The exercise trash cleaner helper key");
 
 /**
  * Gets a key depending on the exercise index
@@ -80,6 +81,8 @@ export default function Main(): JSX.Element {
         updateConfiguration({ currentIndex: index });
         setCurrentExercise(getCurrentExercise(index));
         clearLogMessages();
+        clearExerciseTrash();
+        setExerciseTrashCleaner();
     }
 
     /**
@@ -129,6 +132,21 @@ export default function Main(): JSX.Element {
     }
 
     /**
+     * Sets the callback for the global clearExerciseTrash method
+     * @param callback The callback
+     */
+    function setExerciseTrashCleaner(callback?: Function): void {
+        Object.assign(window, { [exerciseTrashCleanerKey]: callback ?? undefined });
+    }
+
+    /**
+     * Sets a global helper to clear trash from inside exercises
+     */
+    function clearExerciseTrash(): void {
+        if ((window as any)[exerciseTrashCleanerKey]) (window as any)[exerciseTrashCleanerKey]();
+    }
+
+    /**
      * Restore exercise to its initial state
      */
     function restoreExercise(): void {
@@ -174,6 +192,10 @@ export default function Main(): JSX.Element {
                 const message = log instanceof Function ? log.toString() : JSON.stringify(log, null, 4);
                 return { logs: [...prev.logs, message], error: "" };
             });
+
+        // Gives an initial value to the clear exercise trash method to prevent it from being removed on the window's diff
+        Object.assign(window, { setExerciseTrashCleaner });
+        setExerciseTrashCleaner();
 
         // Clears local storage
         localStorageService.current.clear();
