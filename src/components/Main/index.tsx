@@ -68,7 +68,7 @@ export default function Main(): JSX.Element {
      * @returns The exercises array
      */
     function getFilterdExercises(): Exercise[] {
-        return exercises.filter(exercise => (configuration.hardMode ? exercise : !exercise.hard));
+        return (exercises as Exercise[]).filter(exercise => (configuration.hardMode ? exercise.hard : !exercise.hard));
     }
 
     /**
@@ -111,8 +111,7 @@ export default function Main(): JSX.Element {
      */
     function toggleHardMode(): void {
         localStorageService.current.clear();
-        updateConfiguration({ hardMode: !configuration.hardMode });
-        goToExercise(0);
+        updateConfiguration({ hardMode: !configuration.hardMode, currentIndex: 0, hash: getRandomString() });
     }
 
     /**

@@ -1,0 +1,32 @@
+[
+    {
+        "code": "/*\n\t- How would you refactor this code to ES6 classes?\n\t- Also what happens if we want to create an animal that flyes?\n\n\tNOTE: Dogs and cats don't fly 😛\n*/\n\nfunction Animal(name, age, gender, height, weight) {\n\tthis.name = name;\n\tthis.age = age;\n\tthis.gender = gender;\n\tthis.height = height;\n\tthis.weight = weight;\n}\n\nAnimal.prototype = {\n\twalk: function () {\n\t\tconsole.log(\"Walking...\");\n\t},\n};\n\nfunction Dog() {\n\tAnimal.apply(this, arguments);\n}\n\nDog.prototype = Object.create(Animal);\nDog.prototype.constructor = Dog;\nDog.prototype = {\n\tbark: function () {\n\t\tconsole.log(\"Woof...\");\n\t},\n};\n\nfunction Cat() {\n\tAnimal.apply(this, arguments);\n}\n\nCat.prototype = Object.create(Animal);\nCat.prototype.constructor = Cat;\nCat.prototype = {\n\tmeow: function () {\n\t\tconsole.log(\"Miau...\");\n\t},\n};\n\nconst dog = new Dog(\"Firulais\", 5, \"Male\", 60, 35);\nconst cat = new Cat(\"Michifus\", 2, \"Female\", 25, 5);\n\nconsole.log(dog);\nconsole.log(cat);\n"
+    },
+    {
+        "code": "/* \n    - Can you spot the error and explain why?\n    - How would you execute the method with the correct data without removing the static keyword?\n*/\n\nclass Car {\n\tconstructor(brand, model) {\n\t\tthis.brand = brand;\n\t\tthis.model = model;\n\t}\n\n\tstartEngine() {\n\t\tconsole.log(\"Bruuum...\");\n\t}\n\n\tstatic showOff() {\n\t\tconsole.log(`This car is a ${this.brand} ${this.model} and it's awesome!`);\n\t}\n}\n\nconst car = new Car(\"Ford\", \"Focus\");\n\ncar.startEngine();\ncar.showOff();"
+    },
+    {
+        "code": "/* \n    - Can you explaing what the \"Object.setPrototypeOf\" method is doing?\n    - How would you do this differently using classes?\n*/\n\nconst CommonMethods = {\n\tsayHi() {\n\t\tconsole.log(`Hi I'm ${this.name} from the ${this.discipline} discipline...`)\n\t},\n\tlearn() {\n\t\tconsole.log(`${this.name} is learning ${this.skills.join(', ')}`);\n\t},\n};\n\nclass Intern {\n\tconstructor(name, discipline, ...skills) {\n\t\tthis.name = name;\n\t\tthis.discipline = discipline;\n\t\tthis.skills = skills;\n\t}\n}\n\nObject.setPrototypeOf(Intern.prototype, CommonMethods);\n\nconst developmentIntern = new Intern(\"Fulanito\", \"Development\", \"Javascript\", \"HTML\", \"CSS\");\ndevelopmentIntern.sayHi();\ndevelopmentIntern.learn();\n\nconst testingIntern = new Intern(\"Menganito\", \"Testing\", \"Javascript\", \"Manual testing\", \"Automation\");\ntestingIntern.sayHi();\ntestingIntern.learn();\n"
+    },
+    {
+        "code": "/*\n    Create a Character class that uses the data fetched from the API\n    and on the characters iteration shows some data about the character\n\tin a user friendly way...\n*/\n\nfunction mapCharacters(characters) {\n\t// Example character\n\tconsole.log(characters[0]);\n\n\tfor (const character of characters) {\n\t\t// Do your magic here...\n\t}\n}\n\n// Don't worry for this part right now...\nfetch(\"https://rickandmortyapi.com/api/character\")\n\t.then((response) => response.json())\n\t.then((json) => mapCharacters(json.results))\n\t.catch((error) => console.error(error));\n"
+    },
+    {
+        "code": "// How would you fix this?\n\nclass Person {\n\t#name;\n\n\t#lastName;\n\n\tget fullName() {\n\t\treturn `${this.#name} ${this.#lastName}`;\n\t}\n}\n\nconst fulanito = new Person();\n\nfulanito.name = \"Fulanito\";\nfulanito.lastName = \"De Tal\";\n\nconsole.log(fulanito.fullName);\n"
+    },
+    {
+        "code": "/*\n\tCreate a function that recieves a prefix as argument\n\tand returns a function that adds that prefix to any given value...\n*/\n\nfunction withPrefix() {\n\t// Your magic here...\n}\n\nwithPrefix();\n"
+    },
+    {
+        "code": "/*\n\tCreate a \"calculator\" function that takes an \"operation\" function\n\tas argument and returns another function that executes that operation\n\tover two numbers...\n*/\n\nfunction calculate(operation) {\n\t// Your magic here\n}\n\nconst operation = calculate();\nconsole.log(operation);\n",
+        "hard": true
+    },
+    {
+        "code": "/*\n    Create a function that takes a number as argument and\n    returns a set of operations to execute over it\n\n    Extra mile: can you make this function chainable?\n*/\n\nfunction calculate(number) {\n\t// Your math magic goes here...\n}\n\nconst result = calculate(6);\n\nconsole.log(result);\n",
+        "hard": true
+    },
+    {
+        "code": "/*\n\tGiven this multidimensional numbers array...\n\t- Write a non recursive function that outputs the sum of all numbers\n\t- The same as before but this time do it using a recursion\n*/\n\nconst numbers = [1, [[23], 13], [45], 59, [92, 100, [[7], [[28]], 9]], 3];\n\nfunction sumNonRecursive(array) {\n\t// Your non recursive magic here\n}\n\nfunction sumRecursive(array) {\n\t// Your recursive magic here\n}\n\nconst nonRecursiveResult = sumNonRecursive(numbers);\nconst recursiveResult = sumRecursive(numbers);\n\nconsole.log(nonRecursiveResult);\nconsole.log(recursiveResult);\n",
+        "hard": true
+    }
+]
