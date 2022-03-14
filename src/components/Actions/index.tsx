@@ -3,6 +3,7 @@ import styles from "./Actions.module.scss";
 
 interface ActionProps {
     showRestoreButton: boolean;
+    showDifficultyButton: boolean;
     fullScreenModeActive: boolean;
     restoreExercise: () => void;
     toggleHardMode: () => void;
@@ -20,9 +21,11 @@ export default function Actions(props: ActionProps): JSX.Element {
             )}
 
             {/* Difficulty button */}
-            <button className="difficulty-btn" title="Toggle hard difficulty" onClick={props.toggleHardMode}>
-                {icons.skull}
-            </button>
+            {props.showDifficultyButton && (
+                <button className="difficulty-btn" title="Toggle hard difficulty" onClick={props.toggleHardMode}>
+                    {icons.skull}
+                </button>
+            )}
 
             {/* Full screen button */}
             <button title="Toggle full screen mode" onClick={props.toggleFullScreen}>

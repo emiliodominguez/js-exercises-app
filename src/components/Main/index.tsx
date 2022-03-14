@@ -212,6 +212,7 @@ export default function Main(): JSX.Element {
 
                 <Actions
                     showRestoreButton={!areEqual(currentExercise, exercises[configuration.currentIndex].code)}
+                    showDifficultyButton={(exercises as Exercise[]).some(exercise => exercise.hard)}
                     fullScreenModeActive={configuration.fullScreen}
                     restoreExercise={restoreExercise}
                     toggleHardMode={toggleHardMode}
