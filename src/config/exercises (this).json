@@ -1,24 +1,26 @@
-{
-    "code": "/*\n\tHow would you change this for the log message\n\tto show \"Pepe says to study Math\"?\n*/\n\ntopic = 'JS';\n\nfunction classroom(teacher) {\n\treturn function() {\n\t\tconsole.log(`${teacher} says to study ${this.topic}`);\n\t};\n}\n\nconst assignment = classroom('Pepe');\nconst homework = { topic: 'Math' };\n\nassignment();\n"
-},
-{
-    "code": "/* How would you fix this? */\n\nfunction classroom(teacher) {\n\treturn () => {\n\t\tconsole.log(`${teacher} says to study ${this.topic}`);\n\t};\n}\n\nconst homework = {\n\ttopic: 'Math',\n\tassignment: classroom('Pepe'),\n};\n\nhomework.assignment();\n"
-},
-{
-    "code": "/* \n\tHow would you fix this in order so the\n\taddToCount function can increase the Counter's count?\n*/\n\nconst Counter = {\n\tcount: 0,\n\tadd: function () {\n\t\tthis.count++;\n\t},\n};\n\nCounter.add();\nconsole.log(Counter.count);\n\nconst addToCount = Counter.add;\naddToCount();\n\nconsole.log(Counter.count);\n"
-},
-{
-    "code": "/*\n\tGiven the following code, how would you refactor it\n\tto avoid repeating code over and over?\n*/\n\n// Ford\nconst ford = {\n\tbrand: \"Ford\",\n\tspeed: 0,\n\n\taccelerate: function (amount) {\n\t\tthis.speed += amount;\n\t},\n\n\tbrake: function (amount) {\n\t\tthis.speed -= amount;\n\t},\n\n\tstatus: function () {\n\t\treturn `${this.brand} running at ${this.speed} km/h`;\n\t},\n};\n\nford.accelerate(50);\nconsole.log(ford.status());\nford.accelerate(100);\nconsole.log(ford.status());\nford.brake(25);\nconsole.log(ford.status());\n\n// Ferrari\nconst ferrari = {\n\tbrand: \"Ferrari\",\n\tspeed: 0,\n\n\taccelerate: function (inc) {\n\t\tthis.speed += inc;\n\t},\n\n\tbrake: function (dec) {\n\t\tthis.speed -= dec;\n\t},\n\n\tstatus: function () {\n\t\treturn `${this.brand} running at ${this.speed} km/h`;\n\t},\n};\n\nferrari.accelerate(50);\nconsole.log(ferrari.status());\nferrari.accelerate(100);\nconsole.log(ferrari.status());\nferrari.brake(25);\nconsole.log(ferrari.status());\n"
-},
-{
-    "code": "/*  What's the output?  */\n\nconst person = { name: \"Lydia\" };\n\nfunction sayHi(age) {\n\treturn `${this.name} is ${age}`;\n}\n\nconsole.log(sayHi.call(person, 21));\nconsole.log(sayHi.bind(person, 21));\n"
-},
-{
-    "code": "/* Implement a generator to iterate over a list of fake todos */\n\nfunction* generateTodos(todos) {\n\t// The generator code here...\n}\n\nfunction iterateTodos(todos) {\n\t// Implement the generator here...\n}\n\n// Don't worry for this part (just for now...) 😎\nfetch(\"https://jsonplaceholder.typicode.com/todos/\")\n\t.then((response) => response.json())\n\t.then((todos) => iterateTodos(todos))\n\t.catch((e) => console.error(e));\n"
-},
-{
-    "code": "/* Implement a console spinner using the following generator */\n\nfunction* spinnerGenerator() {\n\twhile (true) {\n\t\tyield* [\"\\\\\", \"|\", \"/\", \"--\"];\n\t}\n}\n\n// Your implementation here...\n"
-},
-{
-    "code": "/*\n\tHow would you fix this without modyfing\n\tthe order nor the const declaration? \n*/\n\nsayHi();\n\nfunction sayHi() {\n\tconsole.log('hi');\n}\n\nsayBye();\n\nconst sayBye = () => {\n\tconsole.log('bye');\n};\n"
-},
+[
+    {
+        "code": "/*\n\tHow would you change this for the log message\n\tto show \"Pepe says to study Math\"?\n*/\n\ntopic = 'JS';\n\nfunction classroom(teacher) {\n\treturn function() {\n\t\tconsole.log(`${teacher} says to study ${this.topic}`);\n\t};\n}\n\nconst assignment = classroom('Pepe');\nconst homework = { topic: 'Math' };\n\nassignment();\n"
+    },
+    {
+        "code": "/* How would you fix this? */\n\nfunction classroom(teacher) {\n\treturn () => {\n\t\tconsole.log(`${teacher} says to study ${this.topic}`);\n\t};\n}\n\nconst homework = {\n\ttopic: 'Math',\n\tassignment: classroom('Pepe'),\n};\n\nhomework.assignment();\n"
+    },
+    {
+        "code": "/* \n\tHow would you fix this in order so the\n\taddToCount function can increase the Counter's count?\n*/\n\nconst Counter = {\n\tcount: 0,\n\tadd: function () {\n\t\tthis.count++;\n\t},\n};\n\nCounter.add();\nconsole.log(Counter.count);\n\nconst addToCount = Counter.add;\naddToCount();\n\nconsole.log(Counter.count);\n"
+    },
+    {
+        "code": "/*\n\tGiven the following code, how would you refactor it\n\tto avoid repeating code over and over?\n*/\n\n// Ford\nconst ford = {\n\tbrand: \"Ford\",\n\tspeed: 0,\n\n\taccelerate: function (amount) {\n\t\tthis.speed += amount;\n\t},\n\n\tbrake: function (amount) {\n\t\tthis.speed -= amount;\n\t},\n\n\tstatus: function () {\n\t\treturn `${this.brand} running at ${this.speed} km/h`;\n\t},\n};\n\nford.accelerate(50);\nconsole.log(ford.status());\nford.accelerate(100);\nconsole.log(ford.status());\nford.brake(25);\nconsole.log(ford.status());\n\n// Ferrari\nconst ferrari = {\n\tbrand: \"Ferrari\",\n\tspeed: 0,\n\n\taccelerate: function (inc) {\n\t\tthis.speed += inc;\n\t},\n\n\tbrake: function (dec) {\n\t\tthis.speed -= dec;\n\t},\n\n\tstatus: function () {\n\t\treturn `${this.brand} running at ${this.speed} km/h`;\n\t},\n};\n\nferrari.accelerate(50);\nconsole.log(ferrari.status());\nferrari.accelerate(100);\nconsole.log(ferrari.status());\nferrari.brake(25);\nconsole.log(ferrari.status());\n"
+    },
+    {
+        "code": "/*  What's the output?  */\n\nconst person = { name: \"Lydia\" };\n\nfunction sayHi(age) {\n\treturn `${this.name} is ${age}`;\n}\n\nconsole.log(sayHi.call(person, 21));\nconsole.log(sayHi.bind(person, 21));\n"
+    },
+    {
+        "code": "/* Implement a generator to iterate over a list of fake todos */\n\nfunction* generateTodos(todos) {\n\t// The generator code here...\n}\n\nfunction iterateTodos(todos) {\n\t// Implement the generator here...\n}\n\n// Don't worry for this part (just for now...) 😎\nfetch(\"https://jsonplaceholder.typicode.com/todos/\")\n\t.then((response) => response.json())\n\t.then((todos) => iterateTodos(todos))\n\t.catch((e) => console.error(e));\n"
+    },
+    {
+        "code": "/* Implement a console spinner using the following generator */\n\nfunction* spinnerGenerator() {\n\twhile (true) {\n\t\tyield* [\"\\\\\", \"|\", \"/\", \"--\"];\n\t}\n}\n\n// Your implementation here...\n"
+    },
+    {
+        "code": "/*\n\tHow would you fix this without modyfing\n\tthe order nor the const declaration? \n*/\n\nsayHi();\n\nfunction sayHi() {\n\tconsole.log('hi');\n}\n\nsayBye();\n\nconst sayBye = () => {\n\tconsole.log('bye');\n};\n"
+    }
+]
