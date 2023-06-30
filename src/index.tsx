@@ -1,18 +1,18 @@
-import React from "react";
-import { render } from "react-dom";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 import { register } from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 import Main from "./components/Main";
+import "codemirror/mode/javascript/javascript";
 import "./styles/main.scss";
 
-// Code mirror Javascript configuration
-require("codemirror/mode/javascript/javascript");
+const container = document.getElementById("root");
+const root = createRoot(container as HTMLElement);
 
-render(
-    <React.StrictMode>
+root.render(
+    <StrictMode>
         <Main />
-    </React.StrictMode>,
-    document.getElementById("root")
+    </StrictMode>
 );
 
 register();

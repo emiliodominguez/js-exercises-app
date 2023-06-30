@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from "react";
-import exercises from "../../config/exercises.json";
+import { Exercise, exercises } from "../../exercises";
 import useEventListener from "../../hooks/useEventListener";
 import LocalStorageService from "../../services/local-storage.service";
 import { areEqual, className, getRandomString } from "../../shared/helpers";
@@ -21,11 +21,6 @@ interface Configuration {
     fullScreen: boolean;
     hardMode: boolean;
     hash: string;
-}
-
-interface Exercise {
-    code: string;
-    hard?: boolean;
 }
 
 const indexKey: string = "exercise_{{index}}";
@@ -69,7 +64,7 @@ export default function Main(): JSX.Element {
      * @returns The exercises array
      */
     function getFilterdExercises(): Exercise[] {
-        return (exercises as Exercise[]).filter(exercise => (configuration.hardMode ? exercise.hard : !exercise.hard));
+        return exercises.filter(exercise => (configuration.hardMode ? exercise.hard : !exercise.hard));
     }
 
     /**
@@ -175,6 +170,7 @@ export default function Main(): JSX.Element {
                 localStorageService.current.set(getKey(configuration.currentIndex), currentExercise);
             });
 
+            // @ts-ignore
             // eslint-disable-next-line no-eval
             (1, eval)(`{${currentExercise}}`)();
         } catch (error) {
